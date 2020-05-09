@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.app.farmfresh.R
+import com.google.firebase.FirebaseApp
 
 
 class DeliveryBoysActivity : AppCompatActivity() {
@@ -24,6 +25,8 @@ class DeliveryBoysActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController,appBarConfiguration)
         actionBar?.setDisplayHomeAsUpEnabled(true)
+
+        FirebaseApp.initializeApp(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
