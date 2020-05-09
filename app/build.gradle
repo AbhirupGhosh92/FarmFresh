@@ -32,6 +32,29 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    flavorDimensions 'general'
+    productFlavors {
+        master {
+            dimension = 'general'
+            applicationIdSuffix = '.master'
+            resValue "string", "app_name", "Farm Fresh Master"
+        }
+        manager {
+            dimension = 'general'
+            applicationIdSuffix = '.manager'
+            resValue "string", "app_name", "Farm Fresh Manager"
+        }
+        delivery {
+            dimension = 'general'
+            applicationIdSuffix = '.delivery'
+            resValue "string", "app_name", "Farm Fresh Delivery"
+        }
+        shop {
+            dimension = 'general'
+            applicationIdSuffix = '.shop'
+            resValue "string", "app_name", "Farm Fresh"
+        }
+    }
 
     kotlinOptions {
         jvmTarget = "1.8"

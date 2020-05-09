@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">FarmFresh</string>
     <string name="logout_txt">Logout</string>
     <string name="notifications">Notifications</string>
     <string name="orders">Orders</string>
