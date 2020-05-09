@@ -4,7 +4,12 @@
     <string name="orders">Orders</string>
     <string name="enter_mobile_Number">Enter Mobile Number</string>
     <string name="next">Next</string>
+    <string name="area_name">Area Name</string>
+    <string name="min_bill">Minimum Bill</string>
+    <string name="del_charge">Delivery Charges</string>
     <string name="enter_oyp">Enter OTP</string>
+    <string name="save">Save</string>
+    <string name="manager_name">Manager Name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

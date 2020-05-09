@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/shop_nav">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/shop_nav"
+    app:startDestination="@id/shopHome">
 
+    <fragment
+        android:id="@+id/shopHome"
+        android:name="com.app.farmfresh.fragmets.shop.ShopHome"
+        android:label="shop_home_fragment"
+        tools:layout="@layout/shop_home_fragment" />
 </navigation>

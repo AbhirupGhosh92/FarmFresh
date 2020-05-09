@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="card_corner_radius">20dp</dimen>
+    <dimen name="card_corner_radius_small">8dp</dimen>
     <dimen name="selector_width_height">100dp</dimen>
     <dimen name="selector_width_height_large">120dp</dimen>
+    <dimen name="selector_width_height_small">90dp</dimen>
     <dimen name="image_dimen_card">50dp</dimen>
+    <dimen name="image_dimen_card_small">30dp</dimen>
 </resources>
