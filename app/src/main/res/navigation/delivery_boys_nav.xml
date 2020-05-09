@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/delivery_boys_nav"
+    app:startDestination="@id/deliveyBoysHome">
+
+    <fragment
+        android:id="@+id/deliveyBoysHome"
+        android:name="com.app.farmfresh.fragmets.deliveryboys.DeliveyBoysHome"
+        android:label="delivey_boys_home_fragment"
+        tools:layout="@layout/delivey_boys_home_fragment" />
+</navigation>
