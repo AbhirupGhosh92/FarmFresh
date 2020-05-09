@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="SelectorCard">
+        <item name="android:background">@drawable/rounded_selector</item>
+        <item name="android:layout_width">@dimen/selector_width_height</item>
+        <item name="android:layout_height">@dimen/selector_width_height</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+</resources>
