@@ -17,6 +17,6 @@
     <fragment
         android:id="@+id/areaFragment"
         android:name="com.app.farmfresh.fragmets.master.AreaFragment"
-        android:label="area_fragmennt_fragment"
+        android:label="Areas"
         tools:layout="@layout/area_fragmennt_fragment" />
 </navigation>
