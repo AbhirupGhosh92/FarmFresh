@@ -7,25 +7,25 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.app.farmfresh.fragmets.deliveryboys.DeliveryBoysOrderItems
 import com.app.farmfresh.fragmets.deliveryboys.DeliveryBoysOrders
 
-class OrderStatusPagerAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class OrderStatusPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
 
     private val CONFIRMED = 0
     private val OUT_FOR_DELIVERY = 1
     private val DELIVERED = 2
 
-    override fun isViewFromObject(view: View, `object`: Any): Boolean {
-        return false
-    }
 
-    override fun getCount(): Int  = 3
 
-    override fun getItem(i: Int): Fragment {
-        val fragment = DeliveryBoysOrders()
+    override fun getItemCount(): Int =  3
+
+    override fun createFragment(position: Int): Fragment {
+        val fragment = DeliveryBoysOrderItems()
         var bundleId = "type"
         var bundleValue = ""
-        when(i)
+        when(position)
         {
             CONFIRMED ->
             {
@@ -43,31 +43,8 @@ class OrderStatusPagerAdapter(fragmentManager: FragmentManager) : FragmentStateP
 
         fragment.arguments = Bundle().apply {
             // Our object is just an integer :-P
-           putString(bundleId,bundleValue)
+            putString(bundleId,bundleValue)
         }
         return fragment
-    }
-
-    override fun getPageTitle(position: Int): CharSequence {
-
-        var title = ""
-
-       when(position)
-       {
-           CONFIRMED ->
-           {
-               title = "CONFIRMED"
-           }
-
-           OUT_FOR_DELIVERY -> {
-               title = "OUT FOR DELIVERY"
-           }
-
-           DELIVERED -> {
-               title = "DELIVERED"
-           }
-       }
-
-        return title
     }
 }

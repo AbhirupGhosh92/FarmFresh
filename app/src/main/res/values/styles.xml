@@ -14,7 +14,7 @@
     </style>
 
     <style name="SelectorCard">
-        <item name="android:background">@drawable/rounded_selector</item>
+        <item name="android:background">@drawable/rounded_button</item>
         <item name="android:layout_width">@dimen/selector_width_height</item>
         <item name="android:layout_height">@dimen/selector_width_height</item>
     </style>

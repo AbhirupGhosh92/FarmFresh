@@ -8,6 +8,21 @@
     <fragment
         android:id="@+id/deliveyBoysHome"
         android:name="com.app.farmfresh.fragmets.deliveryboys.DeliveyBoysHome"
-        android:label="delivey_boys_home_fragment"
-        tools:layout="@layout/delivey_boys_home_fragment" />
+        android:label="Delivery"
+        tools:layout="@layout/delivey_boys_home_fragment" >
+        <action
+            android:id="@+id/action_deliveyBoysHome_to_deliveryBoysOrders"
+            app:destination="@id/deliveryBoysOrders" />
+        <action
+            android:id="@+id/action_deliveyBoysHome_to_deliveryBoysNotification"
+            app:destination="@id/deliveryBoysNotification" />
+    </fragment>
+    <fragment
+        android:id="@+id/deliveryBoysOrders"
+        android:name="com.app.farmfresh.fragmets.deliveryboys.DeliveryBoysOrders"
+        android:label="Delivery Orders" />
+    <fragment
+        android:id="@+id/deliveryBoysNotification"
+        android:name="com.app.farmfresh.fragmets.deliveryboys.DeliveryBoysNotification"
+        android:label="Delivery Notification" />
 </navigation>
