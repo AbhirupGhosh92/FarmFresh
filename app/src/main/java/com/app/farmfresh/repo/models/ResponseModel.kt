@@ -4,6 +4,8 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class ResponseModel(@SerializedName("status")
-                         @Expose var status : Int, @SerializedName("responseMessage")
-                        @Expose var responseMessage : String, @SerializedName("status")
-                        @Expose var data : String)
+                        var status : Int,
+                         @SerializedName("responseMessage")
+                        var responseMessage : String,
+                         @SerializedName("data")
+                        var data : String)

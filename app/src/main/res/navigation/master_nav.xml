@@ -11,12 +11,12 @@
         android:label="Master"
         tools:layout="@layout/master_home_fragment" >
         <action
-            android:id="@+id/action_masterHome_to_areaFragment"
-            app:destination="@id/areaFragment" />
+            android:id="@+id/action_masterHome_to_areaPagerFragment"
+            app:destination="@id/areaPagerFragment" />
     </fragment>
     <fragment
-        android:id="@+id/areaFragment"
-        android:name="com.app.farmfresh.fragmets.master.AreaFragment"
-        android:label="Areas"
-        tools:layout="@layout/area_fragmennt_fragment" />
+        android:id="@+id/areaPagerFragment"
+        tools:layout="@layout/fragment_area_pager"
+        android:name="com.app.farmfresh.fragmets.master.AreaPagerFragment"
+        android:label="Area" />
 </navigation>

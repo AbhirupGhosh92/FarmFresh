@@ -19,7 +19,7 @@ class LoggingInterceptor : Interceptor {
 
         Log.d("Response","################################")
         Log.d("Status",responne.code().toString())
-        Log.d("Payload",request.body().toString())
+       // Log.d("Payload",responne.body()?.string().toString())
         Log.d("","################################")
 
         return responne

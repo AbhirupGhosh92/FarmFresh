@@ -70,7 +70,7 @@ class MasterHome : Fragment() {
             {
                 Constants.AREAS ->
                 {
-                    navController.navigate(R.id.action_masterHome_to_areaFragment)
+                    navController.navigate(R.id.action_masterHome_to_areaPagerFragment)
                 }
             }
         }

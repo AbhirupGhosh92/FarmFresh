@@ -7,4 +7,5 @@
     <dimen name="selector_width_height_small">90dp</dimen>
     <dimen name="image_dimen_card">50dp</dimen>
     <dimen name="image_dimen_card_small">30dp</dimen>
+    <dimen name="no_data">24sp</dimen>
 </resources>
