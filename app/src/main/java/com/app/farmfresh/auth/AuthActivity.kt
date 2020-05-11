@@ -121,7 +121,15 @@ class AuthActivity : AppCompatActivity() {
 
         else if(BuildConfig.FLAVOR == Constants.manager)
         {
+            gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
 
+            googleSignInClient = GoogleSignIn.getClient(this,gso)
+
+            var signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent,RC_SIGN_IN_NON_DEFAULT)
         }
     }
 

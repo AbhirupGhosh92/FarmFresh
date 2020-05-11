@@ -10,6 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.app.farmfresh.BuildConfig
 import com.app.farmfresh.R
+import com.app.farmfresh.constants.Constants
 import com.google.firebase.FirebaseApp
 
 class MasterActivity : AppCompatActivity() {
@@ -25,23 +26,23 @@ class MasterActivity : AppCompatActivity() {
 
         when(BuildConfig.FLAVOR)
         {
-            "master" ->
+            Constants.master ->
             {
                 navController.graph = navController.navInflater.inflate(R.navigation.master_nav)
             }
 
-            "delivery" ->
+           Constants.delivery ->
             {
                 navController.graph = navController.navInflater.inflate(R.navigation.delivery_boys_nav)
             }
 
-            "manager" ->
+            Constants.manager ->
 
             {
-                navController.graph = navController.navInflater.inflate(R.navigation.master_nav)
+                navController.graph = navController.navInflater.inflate(R.navigation.manager_nav)
             }
 
-            "shop" ->
+            Constants.shop ->
             {
                 navController.graph = navController.navInflater.inflate(R.navigation.shop_nav)
             }
