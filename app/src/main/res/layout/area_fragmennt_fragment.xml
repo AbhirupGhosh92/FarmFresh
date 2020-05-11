@@ -26,6 +26,7 @@
             android:id="@+id/edt_area_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textPostalAddress"
             android:layout_margin="10dp"
             android:layout_marginBottom="10dp"
             android:hint="@string/area_name" />
@@ -35,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:inputType="numberDecimal"
             android:layout_marginBottom="10dp"
             android:hint="@string/min_bill" />
 
@@ -43,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:inputType="numberDecimal"
             android:layout_marginBottom="10dp"
             android:hint="@string/del_charge" />
 
@@ -50,6 +53,7 @@
             android:id="@+id/edt_manager_name"
             android:hint="@string/manager_name"
             android:layout_width="match_parent"
+            android:inputType="textPersonName"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginBottom="10dp" />

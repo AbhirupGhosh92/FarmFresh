@@ -35,15 +35,22 @@ class AddAreaFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        viewModel = ViewModelProviders.of(this).get(AreaFragmentViewModel::class.java)
+
         databinding.btnSave.setOnClickListener {
 
-            if(databinding.edtAreaName.text.isNullOrEmpty().not() && databinding.edtDellCharge.text.isNullOrEmpty() && databinding.edtMinBill.text.isNullOrEmpty().not())
-            viewModel.addArea(AreaModel(
-                databinding.edtAreaName.text.toString(),
-                databinding.edtMinBill.text.toString().toFloat(),
-                databinding.edtDellCharge.text.toString().toFloat(),
-                databinding.edtManagerName.text.toString()
-            ))
+            if(databinding.edtAreaName.text.isNullOrEmpty().not() && databinding.edtDellCharge.text.isNullOrEmpty().not() && databinding.edtMinBill.text.isNullOrEmpty().not()) {
+                viewModel.addArea(
+                    AreaModel(
+                        databinding.edtAreaName.text.toString(),
+                        databinding.edtMinBill.text.toString().toFloat(),
+                        databinding.edtDellCharge.text.toString().toFloat(),
+                        databinding.edtManagerName.text.toString()
+                    )
+                ).observe(viewLifecycleOwner, Observer {
+                    Toast.makeText(requireContext(),it.data,Toast.LENGTH_SHORT).show()
+                })
+            }
             else
                 Toast.makeText(requireContext(),resources.getString(R.string.enter_valid_feilds),Toast.LENGTH_SHORT).show()
         }

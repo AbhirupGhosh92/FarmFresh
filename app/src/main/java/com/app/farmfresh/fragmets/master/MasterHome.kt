@@ -2,17 +2,16 @@ package com.app.farmfresh.fragmets.master
 
 import android.app.Activity
 import android.content.Intent
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-
 import com.app.farmfresh.R
 import com.app.farmfresh.adapters.CustomGridAdapter
 import com.app.farmfresh.constants.Constants
@@ -49,6 +48,7 @@ class MasterHome : Fragment() {
         GridLayoutItem(R.drawable.ic_sync_disabled,"Logout")
     )
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -72,6 +72,11 @@ class MasterHome : Fragment() {
                 {
                     navController.navigate(R.id.action_masterHome_to_areaPagerFragment)
                 }
+
+                Constants.AREA_MANAGERS ->
+                {
+                    navController.navigate(R.id.action_masterHome_to_areaPagerFragment)
+                }
             }
         }
 
@@ -80,55 +85,10 @@ class MasterHome : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        if(FirebaseAuth.getInstance().currentUser == null)
-        {
-            startAuth()
-        }else
-        {
-            firebaseUser = FirebaseAuth.getInstance().currentUser
-        }
-
-    }
-
-    fun startAuth()
-    {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder()
-                .build())
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(false)
-                .setAvailableProviders(providers)
-                .build(),
-            RC_SIGN_IN)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        when(requestCode)
-        {
-            RC_SIGN_IN -> {
-                val response = IdpResponse.fromResultIntent(data)
-
-                if (resultCode == Activity.RESULT_OK) {
-                    // Successfully signed in
-                    firebaseUser = FirebaseAuth.getInstance().currentUser
-                    // ...
-                } else {
-                    // Sign in failed. If response is null the user canceled the
-                    // sign-in flow using the back button. Otherwise check
-                    // response.getError().getErrorCode() and handle the error.
-                    // ...
 
 
 
-                    if(response?.error!=null)
-                        Toast.makeText(requireContext(),response?.error.toString(), Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+
     }
 
 

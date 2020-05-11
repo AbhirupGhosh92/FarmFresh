@@ -8,12 +8,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.farmfresh.R
+import com.app.farmfresh.adapters.ShowAreaAdapter
 import com.app.farmfresh.databinding.FragmentShowAreasBinding
+import com.app.farmfresh.repo.models.AreaModel
+import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
 
 class ShowAreasFragment : Fragment() {
 
+    private var areaList = mutableListOf<AreaModel>()
     private lateinit var dataBinding : FragmentShowAreasBinding
+    private lateinit var viewModel : AreaFragmentViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -26,8 +35,24 @@ class ShowAreasFragment : Fragment() {
 
         dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_show_areas,container,false)
 
-
+        dataBinding.rvAreaData.adapter = ShowAreaAdapter(requireActivity().supportFragmentManager,areaList)
+        dataBinding.rvAreaData.itemAnimator = DefaultItemAnimator()
+        dataBinding.rvAreaData.layoutManager = LinearLayoutManager(requireContext())
+        dataBinding.rvAreaData.adapter?.notifyDataSetChanged()
 
         return dataBinding.root
+    }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this).get(AreaFragmentViewModel::class.java)
+
+        viewModel.getAreaList()?.observe(viewLifecycleOwner, Observer {
+//            areaList.clear()
+//            areaList.addAll(it)
+//            dataBinding.rvAreaData.adapter?.notifyDataSetChanged()
+        })
     }
 }
