@@ -16,10 +16,11 @@ import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
 class AddAreaFragment : Fragment() {
 
-    private lateinit var viewModel: AreaFragmentViewModel
+    @Inject lateinit var viewModel: AreaFragmentViewModel
     private lateinit var databinding : AreaFragmenntFragmentBinding
 
     override fun onCreateView(
@@ -34,8 +35,6 @@ class AddAreaFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(AreaFragmentViewModel::class.java)
 
         databinding.btnSave.setOnClickListener {
 

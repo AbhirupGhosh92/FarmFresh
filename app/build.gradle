@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -88,8 +89,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.8.1'
 
     implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.hbb20:ccp:2.3.9'
     implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
+
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx' // kotlin
 
     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.12.1'
@@ -111,4 +115,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.google.dagger:dagger:2.27'
+    kapt 'com.google.dagger:dagger-compiler:2.27'
 }

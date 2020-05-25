@@ -37,4 +37,9 @@
         <item name="android:windowExitAnimation">@android:anim/slide_out_right</item>
     </style>
 
+    <style name="editTextColour">
+        <item name="android:textCursorDrawable">@color/colorAccent</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
+
 </resources>

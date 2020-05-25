@@ -9,9 +9,12 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.app.farmfresh.BuildConfig
+import com.app.farmfresh.FarmFreshApplication
 import com.app.farmfresh.R
 import com.app.farmfresh.constants.Constants
+import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
 import com.google.firebase.FirebaseApp
+import javax.inject.Inject
 
 class MasterActivity : AppCompatActivity() {
 
@@ -20,6 +23,10 @@ class MasterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (applicationContext as FarmFreshApplication).initialiseDagger().injectActivity(this)
+
+
         setContentView(R.layout.activity_master)
 
         navController = findNavController(R.id.master_nav_host_fragment)

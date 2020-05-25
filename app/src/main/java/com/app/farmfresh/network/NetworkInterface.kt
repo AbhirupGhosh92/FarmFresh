@@ -1,14 +1,13 @@
 package com.app.farmfresh.network
 
+import android.os.Build
+import com.app.farmfresh.BuildConfig
 import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.repo.models.DeliveryBoyModel
 import com.app.farmfresh.repo.models.ResponseModel
 import io.reactivex.rxjava3.core.Flowable
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 
 interface NetworkInterface {
@@ -27,5 +26,8 @@ interface NetworkInterface {
 
     @POST("createDeliveryBoy/")
     fun createDeliveryBoy(@Body deliveryBoyModel: DeliveryBoyModel) : Flowable<ResponseModel?>?
+
+    @GET("createDeliveryBoy")
+    fun checkUser(@Query("id") id : String,@Query("role") role : String = BuildConfig.FLAVOR) : Flowable<ResponseModel?>?
 }
 

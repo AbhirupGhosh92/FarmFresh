@@ -7,4 +7,9 @@
         <item name="android:layout_height">@dimen/selector_width_height</item>
         <item name="android:elevation">2dp</item>
     </style>
+
+    <style name="editTextColour">
+        <item name="android:textCursorDrawable">@color/colorAccent</item>
+        <item name="android:backgroundTint">@color/colorAccent</item>
+    </style>
 </resources>

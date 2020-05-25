@@ -1,8 +1,10 @@
 package com.app.farmfresh.auth
 
+import `in`.aabhasjindal.otptextview.OTPListener
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.icu.util.TimeUnit
 import android.os.Build
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -12,13 +14,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.app.farmfresh.BuildConfig
+import com.app.farmfresh.FarmFreshApplication
 import com.app.farmfresh.R
 import com.app.farmfresh.activities.MasterActivity
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.databinding.AuthLayoutBinding
+import com.app.farmfresh.utils.Utils
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -26,9 +31,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.FirebaseException
+import com.google.firebase.FirebaseTooManyRequestsException
+import com.google.firebase.auth.*
 
 class AuthActivity : AppCompatActivity() {
 
@@ -39,10 +44,38 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var gso : GoogleSignInOptions
     private lateinit var googleSignInClient: GoogleSignInClient
     private var auth = FirebaseAuth.getInstance()
+    private val DEFAULT = 0
+    private val ENTER_MOBILE = 1
+    private val ENTER_OTP = 2
+    private val RESET = 3
+    private var verificationId = ""
+    private  var code = ""
+
+    private val  callbacks =  object  : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
+        override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+           code = p0.smsCode.toString()
+        }
+
+        override fun onVerificationFailed(p0: FirebaseException) {
+
+
+            Snackbar.make(dataBindinng.root,p0?.localizedMessage,Snackbar.LENGTH_LONG).show()
+            manageUi(RESET)
+        }
+
+        override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
+            verificationId = p0
+            manageUi(ENTER_OTP)
+        }
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
        super.onCreate(savedInstanceState)
         dataBindinng = DataBindingUtil.setContentView(this, R.layout.auth_layout)
+
+        (applicationContext as FarmFreshApplication).initialiseDagger().injectActivity(this)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
                 window?.statusBarColor = resources?.getColor(R.color.colorAccentLight,null)!!
@@ -53,53 +86,129 @@ class AuthActivity : AppCompatActivity() {
             startAuth()
         }
 
+        dataBindinng.otpView.otpListener = object : OTPListener
+        {
+            override fun onInteractionListener()
+            {
+
+            }
+
+            override fun onOTPComplete(otp: String)
+            {
+                Utils.hideKeyboard(this@AuthActivity,dataBindinng.otpView)
+
+               if(otp == code)
+               {
+                   var intent = Intent(this@AuthActivity,MasterActivity::class.java)
+                   finish()
+                   startActivity(intent)
+               }
+                else
+               {
+                   Snackbar.make(dataBindinng.root,"Wrong Code Entered",Snackbar.LENGTH_LONG).show()
+               }
+            }
+        }
+
+
+        dataBindinng.edtEnterMobile.addTextChangedListener{
+            if(it?.toString()?.length == 10)
+            {
+
+                Utils.hideKeyboard(this,dataBindinng.edtEnterMobile)
+                PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                    dataBindinng.ccp.selectedCountryCodeWithPlus+it.toString(), // Phone number to verify
+                    60, // Timeout duration
+                    java.util.concurrent.TimeUnit.SECONDS, // Unit of timeout
+                    this, callbacks) // OnVerificationStateChangedCallbacks
+            }
+        }
+
+
     }
 
 
     override fun onStart() {
         super.onStart()
 
+
         startAuth()
 
     }
 
+    private fun manageUi(case : Int = DEFAULT)
+    {
+
+        when(case)
+        {
+            DEFAULT ->
+            {
+                dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.ccp.visibility = View.GONE
+                dataBindinng.edtEnterMobile.visibility = View.GONE
+                dataBindinng.otpView.visibility = View.GONE
+            }
+
+            RESET ->
+            {
+                dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.ccp.visibility = View.GONE
+                dataBindinng.edtEnterMobile.visibility = View.GONE
+                dataBindinng.otpView.visibility = View.GONE
+                dataBindinng.btnRetry.visibility = View.VISIBLE
+            }
+
+            ENTER_MOBILE ->
+            {
+                dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.ccp.visibility = View.VISIBLE
+                dataBindinng.edtEnterMobile.visibility = View.VISIBLE
+                dataBindinng.otpView.visibility = View.GONE
+
+            }
+
+            ENTER_OTP -> {
+                dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.ccp.visibility = View.GONE
+                dataBindinng.edtEnterMobile.visibility = View.GONE
+                dataBindinng.otpView.visibility = View.VISIBLE
+
+            }
+
+        }
+
+
+    }
+
+
 
     fun startAuth()
     {
-        dataBindinng.btnRetry.visibility = View.GONE
+       manageUi()
 
         if(BuildConfig.FLAVOR == Constants.master) {
 
-            val providers = arrayListOf(
-                AuthUI.IdpConfig.GoogleBuilder()
-                    .build()
-            )
-            startActivityForResult(
-                AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setIsSmartLockEnabled(false)
-                    .setAvailableProviders(providers)
-                    .build(),
-                RC_SIGN_IN
-            )
+            gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            googleSignInClient = GoogleSignIn.getClient(this,gso)
+            var signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent,RC_SIGN_IN_NON_DEFAULT)
 
         }
 
         else if(BuildConfig.FLAVOR == Constants.shop) {
 
-            dataBindinng.btnRetry.visibility = View.GONE
-            val providers = arrayListOf(
-                AuthUI.IdpConfig.GoogleBuilder()
-                    .build()
-            )
-            startActivityForResult(
-                AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setIsSmartLockEnabled(false)
-                    .setAvailableProviders(providers)
-                    .build(),
-                RC_SIGN_IN
-            )
+            gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+
+            googleSignInClient = GoogleSignIn.getClient(this,gso)
+            var signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent,RC_SIGN_IN_NON_DEFAULT)
 
         }
 
@@ -146,9 +255,9 @@ class AuthActivity : AppCompatActivity() {
                     // ...
 
 
-                    var intent = Intent(this,MasterActivity::class.java)
-                    finish()
-                    startActivity(intent)
+//                    var intent = Intent(this,MasterActivity::class.java)
+//                    finish()
+//                    startActivity(intent)
 
                 } else {
                     // Sign in failed. If response is null the user canceled the
@@ -183,9 +292,11 @@ class AuthActivity : AppCompatActivity() {
                         // ...
                     }
 
-                    var intent = Intent(this,MasterActivity::class.java)
-                    finish()
-                    startActivity(intent)
+//                    var intent = Intent(this,MasterActivity::class.java)
+//                    finish()
+//                    startActivity(intent)
+
+                    manageUi(ENTER_MOBILE)
 
                 } else {
                     // Sign in failed. If response is null the user canceled the
@@ -208,10 +319,14 @@ class AuthActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    Log.d("auth", "signInWithCredential:success")
-                    var intent = Intent(this,MasterActivity::class.java)
-                    finish()
-                    startActivity(intent)
+//                    Log.d("auth", "signInWithCredential:success")
+//                    var intent = Intent(this,MasterActivity::class.java)
+//                    finish()
+//                    startActivity(intent)
+
+
+                    manageUi(ENTER_MOBILE)
+
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("auth", "signInWithCredential:failure", task.exception)
