@@ -25,6 +25,7 @@ import com.app.farmfresh.R
 import com.app.farmfresh.activities.MasterActivity
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.databinding.AuthLayoutBinding
+import com.app.farmfresh.models.MobileNumberModel
 import com.app.farmfresh.utils.Utils
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -52,6 +53,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
     private val RESET = 3
     private var verificationId = ""
     private  var code = ""
+    private var mContext = this
     private lateinit var authViewModel : AuthViewModel
 
 
@@ -103,9 +105,23 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 
                if(otp == code)
                {
-                   var intent = Intent(this@AuthActivity,MasterActivity::class.java)
-                   finish()
-                   startActivity(intent)
+
+                   authViewModel.addMonbileNumber(FirebaseAuth.getInstance().uid.toString(), MobileNumberModel(dataBindinng.ccp.selectedCountryCodeWithPlus+dataBindinng.edtEnterMobile.text.toString()))
+                       .observe(mContext as LifecycleOwner, Observer {
+                           if(it.status == 200)
+                           {
+                               var intent = Intent(this@AuthActivity,MasterActivity::class.java)
+                               finish()
+                               startActivity(intent)
+                           }
+                           else
+                           {
+                               Snackbar.make(dataBindinng.root,it.responseMessage,Snackbar.LENGTH_LONG).show()
+                           }
+                       })
+
+
+
                }
                 else
                {
@@ -291,10 +307,38 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                         val account = task.getResult(ApiException::class.java)!!
                         Log.d("auth", "firebaseAuthWithGoogle:" + account.id)
 
-//                        authViewModel.checkAccess(account.id.toString()).observe(this, Observer {
-//
-//                            firebaseAuthWithGoogle(account.idToken!!)
-//                        })
+                        firebaseAuthWithGoogle(account.idToken!!)
+                        {
+
+                            authViewModel.checkAccess(it?.uid.toString())
+                                .observe(this as LifecycleOwner, Observer {
+
+                                    if (it.data.accessGranted && it.data.mobileAdded && it.data.detailsAdded) {
+                                        Snackbar.make(
+                                            dataBindinng.root,
+                                            "Access Granted",
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+
+                                    } else if (it.data.accessGranted && it.data.mobileAdded.not()) {
+                                        manageUi(ENTER_MOBILE)
+                                    } else if (it.data.accessGranted && it.data.mobileAdded && it.data.detailsAdded.not()) {
+                                        Snackbar.make(
+                                            dataBindinng.root,
+                                            "Add Details",
+                                            Snackbar.LENGTH_SHORT
+                                        ).show()
+                                    } else if (it.data.accessGranted.not()) {
+                                        Snackbar.make(
+                                            dataBindinng.root,
+                                            "Access Not Granted",
+                                            Snackbar.LENGTH_INDEFINITE
+                                        ).show()
+                                    }
+
+
+                                })
+                        }
 
 
                     } catch (e: ApiException) {
@@ -307,7 +351,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 //                    finish()
 //                    startActivity(intent)
 
-                    manageUi(ENTER_MOBILE)
+
 
                 } else {
                     // Sign in failed. If response is null the user canceled the
@@ -324,7 +368,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
         }
     }
 
-    private fun firebaseAuthWithGoogle(idToken: String) {
+    private fun firebaseAuthWithGoogle(idToken: String,snippet : (user : FirebaseUser?) -> Unit) {
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
@@ -334,15 +378,13 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 //                    var intent = Intent(this,MasterActivity::class.java)
 //                    finish()
 //                    startActivity(intent)
-
-
-                    manageUi(ENTER_MOBILE)
+                    snippet.invoke(task.result?.user)
 
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.w("auth", "signInWithCredential:failure", task.exception)
                     // ...
-                   Toast.makeText(this,"Authentication Failed",Toast.LENGTH_SHORT).show()
+                   Toast.makeText(this,task.exception?.localizedMessage,Toast.LENGTH_SHORT).show()
 
                 }
 
