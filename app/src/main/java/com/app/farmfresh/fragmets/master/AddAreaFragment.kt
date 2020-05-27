@@ -10,17 +10,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.app.farmfresh.R
 import com.app.farmfresh.databinding.AreaFragmenntFragmentBinding
 import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
 class AddAreaFragment : Fragment() {
 
-    @Inject lateinit var viewModel: AreaFragmentViewModel
+   lateinit var viewModel: AreaFragmentViewModel
     private lateinit var databinding : AreaFragmenntFragmentBinding
 
     override fun onCreateView(
@@ -29,6 +29,8 @@ class AddAreaFragment : Fragment() {
     ): View? {
 
         databinding = DataBindingUtil.inflate(inflater,R.layout.area_fragmennt_fragment, container, false)
+
+        viewModel = ViewModelProvider(this).get(AreaFragmentViewModel::class.java)
 
         return databinding.root
     }

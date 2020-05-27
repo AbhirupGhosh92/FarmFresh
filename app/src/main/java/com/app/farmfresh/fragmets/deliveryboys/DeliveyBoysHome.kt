@@ -11,13 +11,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 
 import com.app.farmfresh.R
 import com.app.farmfresh.databinding.DeliveyBoysHomeFragmentBinding
-import com.app.farmfresh.factories.ViewModelFactory
 import com.app.farmfresh.viewmodels.deliveryboys.DeliveyBoysHomeViewModel
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
@@ -71,7 +71,7 @@ class DeliveyBoysHome : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelFactory().create(DeliveyBoysHomeViewModel::class.java)
+        viewModel = ViewModelProvider(this)[DeliveyBoysHomeViewModel::class.java]
 
         dataBinding.llNotification.setOnClickListener {
             navController.navigate(R.id.action_deliveyBoysHome_to_deliveryBoysNotification)

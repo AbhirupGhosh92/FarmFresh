@@ -10,4 +10,6 @@ object Constants {
     var shop = "shop"
     var manager = "manager"
 
+    var baseUrl = "https://us-central1-farmerfresh-1c6f2.cloudfunctions.net/"
+
 }

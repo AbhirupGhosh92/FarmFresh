@@ -1,16 +1,14 @@
 package com.app.farmfresh
 
 import androidx.multidex.MultiDexApplication
-import com.app.farmfresh.di.appcomponent.ApplicationComponent
-import com.app.farmfresh.di.appcomponent.DaggerApplicationComponent
+import com.app.farmfresh.constants.Constants
+import com.app.farmfresh.network.ApiModule
 
 class FarmFreshApplication : MultiDexApplication() {
 
-    private lateinit var applicationComponent: ApplicationComponent
+    override fun onCreate() {
+        super.onCreate()
 
-    fun initialiseDagger() : ApplicationComponent
-    {
-       return DaggerApplicationComponent.create()
+
     }
-
 }

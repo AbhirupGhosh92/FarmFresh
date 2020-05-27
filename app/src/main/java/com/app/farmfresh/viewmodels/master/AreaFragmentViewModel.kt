@@ -10,22 +10,18 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import dagger.Component
-import dagger.Module
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
-import javax.inject.Inject
 
-@Module
-class AreaFragmentViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
+class AreaFragmentViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 
     fun addArea(areaModel: AreaModel) : LiveData<ResponseModel>
     {
         var liveData = MutableLiveData<ResponseModel>()
 
-        repository.addArea(areaModel)
+        Repository.addArea(areaModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({
@@ -42,7 +38,7 @@ class AreaFragmentViewModel @Inject constructor(private val repository: Reposito
 
         var liveData = MutableLiveData<ResponseModel>()
 
-        repository.addArea(areaModel)
+        Repository.addArea(areaModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({
@@ -58,7 +54,7 @@ class AreaFragmentViewModel @Inject constructor(private val repository: Reposito
     {
         var liveData = MutableLiveData<ResponseModel>()
 
-        repository.addArea(areaModel)
+        Repository.addArea(areaModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({resp ->

@@ -13,10 +13,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.*
 import com.app.farmfresh.BuildConfig
 import com.app.farmfresh.FarmFreshApplication
 import com.app.farmfresh.R
@@ -35,7 +37,7 @@ import com.google.firebase.FirebaseException
 import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 
     private lateinit var firebaseUser: FirebaseUser
     private val RC_SIGN_IN = 11
@@ -50,6 +52,8 @@ class AuthActivity : AppCompatActivity() {
     private val RESET = 3
     private var verificationId = ""
     private  var code = ""
+    private lateinit var authViewModel : AuthViewModel
+
 
     private val  callbacks =  object  : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
         override fun onVerificationCompleted(p0: PhoneAuthCredential) {
@@ -74,8 +78,8 @@ class AuthActivity : AppCompatActivity() {
        super.onCreate(savedInstanceState)
         dataBindinng = DataBindingUtil.setContentView(this, R.layout.auth_layout)
 
-        (applicationContext as FarmFreshApplication).initialiseDagger().injectActivity(this)
 
+        authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
                 window?.statusBarColor = resources?.getColor(R.color.colorAccentLight,null)!!
@@ -194,6 +198,7 @@ class AuthActivity : AppCompatActivity() {
                 .build()
 
             googleSignInClient = GoogleSignIn.getClient(this,gso)
+
             var signInIntent = googleSignInClient.signInIntent
             startActivityForResult(signInIntent,RC_SIGN_IN_NON_DEFAULT)
 
@@ -285,7 +290,13 @@ class AuthActivity : AppCompatActivity() {
                         // Google Sign In was successful, authenticate with Firebase
                         val account = task.getResult(ApiException::class.java)!!
                         Log.d("auth", "firebaseAuthWithGoogle:" + account.id)
-                        firebaseAuthWithGoogle(account.idToken!!)
+
+//                        authViewModel.checkAccess(account.id.toString()).observe(this, Observer {
+//
+//                            firebaseAuthWithGoogle(account.idToken!!)
+//                        })
+
+
                     } catch (e: ApiException) {
                         // Google Sign In failed, update UI appropriately
                         Log.w("auth", "Google sign in failed", e)
