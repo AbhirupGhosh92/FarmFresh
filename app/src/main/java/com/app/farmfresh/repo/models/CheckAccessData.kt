@@ -1,6 +1,7 @@
 package com.app.farmfresh.repo.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CheckAccessData(
 
@@ -10,4 +11,4 @@ data class CheckAccessData(
     val mobileAdded : Boolean = false,
     @field:SerializedName("detailsAdded")
     val detailsAdded : Boolean = false
-)
+):Serializable

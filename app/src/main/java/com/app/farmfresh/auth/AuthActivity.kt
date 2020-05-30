@@ -89,9 +89,16 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
         }
 
         dataBindinng.btnRetry.setOnClickListener {
-            startAuth()
+            requestOpp()
         }
 
+        dataBindinng.btnReenterMobile.setOnClickListener {
+            dataBindinng.ccp.visibility = View.VISIBLE
+            dataBindinng.edtEnterMobile.visibility = View.VISIBLE
+            dataBindinng.btnRetry.visibility = View.GONE
+            dataBindinng.btnReenterMobile.visibility = View.GONE
+            dataBindinng.otpView.visibility = View.GONE
+        }
         dataBindinng.otpView.otpListener = object : OTPListener
         {
             override fun onInteractionListener()
@@ -126,6 +133,10 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                 else
                {
                    Snackbar.make(dataBindinng.root,"Wrong Code Entered",Snackbar.LENGTH_LONG).show()
+
+                   //TODO(Resend)
+
+                   //TODO(Change mobile number)
                }
             }
         }
@@ -135,16 +146,22 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
             if(it?.toString()?.length == 10)
             {
 
-                Utils.hideKeyboard(this,dataBindinng.edtEnterMobile)
-                PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    dataBindinng.ccp.selectedCountryCodeWithPlus+it.toString(), // Phone number to verify
-                    60, // Timeout duration
-                    java.util.concurrent.TimeUnit.SECONDS, // Unit of timeout
-                    this, callbacks) // OnVerificationStateChangedCallbacks
+                requestOpp()
             }
         }
 
 
+    }
+
+
+    private fun requestOpp()
+    {
+        Utils.hideKeyboard(this,dataBindinng.edtEnterMobile)
+        PhoneAuthProvider.getInstance().verifyPhoneNumber(
+            dataBindinng.ccp.selectedCountryCodeWithPlus+dataBindinng.edtEnterMobile.text.toString(), // Phone number to verify
+            60, // Timeout duration
+            java.util.concurrent.TimeUnit.SECONDS, // Unit of timeout
+            this, callbacks) // OnVerificationStateChangedCallbacks
     }
 
 
@@ -164,6 +181,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
             DEFAULT ->
             {
                 dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.btnReenterMobile.visibility = View.GONE
                 dataBindinng.ccp.visibility = View.GONE
                 dataBindinng.edtEnterMobile.visibility = View.GONE
                 dataBindinng.otpView.visibility = View.GONE
@@ -172,6 +190,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
             RESET ->
             {
                 dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.btnReenterMobile.visibility = View.GONE
                 dataBindinng.ccp.visibility = View.GONE
                 dataBindinng.edtEnterMobile.visibility = View.GONE
                 dataBindinng.otpView.visibility = View.GONE
@@ -181,6 +200,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
             ENTER_MOBILE ->
             {
                 dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.btnReenterMobile.visibility = View.GONE
                 dataBindinng.ccp.visibility = View.VISIBLE
                 dataBindinng.edtEnterMobile.visibility = View.VISIBLE
                 dataBindinng.otpView.visibility = View.GONE
@@ -189,6 +209,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 
             ENTER_OTP -> {
                 dataBindinng.btnRetry.visibility = View.GONE
+                dataBindinng.btnReenterMobile.visibility = View.GONE
                 dataBindinng.ccp.visibility = View.GONE
                 dataBindinng.edtEnterMobile.visibility = View.GONE
                 dataBindinng.otpView.visibility = View.VISIBLE
@@ -290,6 +311,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                         Toast.makeText(this,response?.error?.localizedMessage.toString(), Toast.LENGTH_SHORT).show()
 
                    dataBindinng.btnRetry.visibility = View.VISIBLE
+                    dataBindinng.btnReenterMobile.visibility = View.VISIBLE
                 }
             }
 
@@ -313,21 +335,14 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                             authViewModel.checkAccess(it?.uid.toString())
                                 .observe(this as LifecycleOwner, Observer {
 
-                                    if (it.data.accessGranted && it.data.mobileAdded && it.data.detailsAdded) {
-                                        Snackbar.make(
-                                            dataBindinng.root,
-                                            "Access Granted",
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
-
+                                    if (it.data.accessGranted && it.data.mobileAdded) {
+                                        var intent = Intent(this,MasterActivity::class.java)
+                                        var bundle = Bundle()
+                                        bundle.putSerializable("accessData",it.data)
+                                        finish()
+                                        startActivity(intent)
                                     } else if (it.data.accessGranted && it.data.mobileAdded.not()) {
                                         manageUi(ENTER_MOBILE)
-                                    } else if (it.data.accessGranted && it.data.mobileAdded && it.data.detailsAdded.not()) {
-                                        Snackbar.make(
-                                            dataBindinng.root,
-                                            "Add Details",
-                                            Snackbar.LENGTH_SHORT
-                                        ).show()
                                     } else if (it.data.accessGranted.not()) {
                                         Snackbar.make(
                                             dataBindinng.root,
@@ -347,9 +362,6 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                         // ...
                     }
 
-//                    var intent = Intent(this,MasterActivity::class.java)
-//                    finish()
-//                    startActivity(intent)
 
 
 
@@ -363,6 +375,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                         Toast.makeText(this,response?.error?.localizedMessage.toString(), Toast.LENGTH_SHORT).show()
 
                     dataBindinng.btnRetry.visibility = View.VISIBLE
+                    dataBindinng.btnReenterMobile.visibility = View.VISIBLE
                 }
             }
         }

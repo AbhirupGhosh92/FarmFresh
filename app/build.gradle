@@ -39,21 +39,33 @@ android {
             dimension = 'general'
             applicationIdSuffix = '.master'
             resValue "string", "app_name", "Farm Fresh Master"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_master"
+            ]
         }
         manager {
             dimension = 'general'
             applicationIdSuffix = '.manager'
             resValue "string", "app_name", "Farm Fresh Manager"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_manager"
+            ]
         }
         delivery {
             dimension = 'general'
             applicationIdSuffix = '.delivery'
             resValue "string", "app_name", "Farm Fresh Delivery"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_delivery"
+            ]
         }
         shop {
             dimension = 'general'
             applicationIdSuffix = '.shop'
             resValue "string", "app_name", "Farm Fresh"
+            manifestPlaceholders = [
+                    appIcon: "@mipmap/ic_launcher_shop"
+            ]
         }
     }
 
