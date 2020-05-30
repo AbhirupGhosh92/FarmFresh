@@ -113,7 +113,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                if(otp == code)
                {
 
-                   authViewModel.addMonbileNumber(FirebaseAuth.getInstance().uid.toString(), MobileNumberModel(dataBindinng.ccp.selectedCountryCodeWithPlus+dataBindinng.edtEnterMobile.text.toString()))
+                   authViewModel.addMonbileNumber(FirebaseAuth.getInstance().uid.toString(),BuildConfig.FLAVOR,MobileNumberModel(dataBindinng.ccp.selectedCountryCodeWithPlus+dataBindinng.edtEnterMobile.text.toString()))
                        .observe(mContext as LifecycleOwner, Observer {
                            if(it.status == 200)
                            {

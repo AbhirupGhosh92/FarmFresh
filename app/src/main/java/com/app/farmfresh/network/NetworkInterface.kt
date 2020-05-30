@@ -38,6 +38,6 @@ interface NetworkInterface {
     fun createUser(@Body userModel : UserModel) : Flowable<ResponseModel?>?
 
     @POST("addMobileNumber/")
-    fun addMobileNumber(@Query("id") id : String,@Body mobileNumberModel: MobileNumberModel) : Flowable<ResponseModel?>?
+    fun addMobileNumber(@Query("id") id : String, @Query("role") role : String, @Body mobileNumberModel: MobileNumberModel) : Flowable<ResponseModel?>?
 }
 

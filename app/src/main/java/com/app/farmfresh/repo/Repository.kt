@@ -69,9 +69,9 @@ object Repository  {
         return networkClient.createUser(user)?.defaultIfEmpty(defaultResponseModel)
     }
 
-    fun addMobileNumber(id: String,mobileNumberModel: MobileNumberModel) : Flowable<ResponseModel?>?
+    fun addMobileNumber(id: String,role : String,mobileNumberModel: MobileNumberModel) : Flowable<ResponseModel?>?
     {
-        return networkClient.addMobileNumber(id,mobileNumberModel)?.defaultIfEmpty(
+        return networkClient.addMobileNumber(id,role,mobileNumberModel)?.defaultIfEmpty(
             defaultResponseModel)
     }
 

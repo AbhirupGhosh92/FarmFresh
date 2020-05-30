@@ -30,11 +30,11 @@ class AuthViewModel : ViewModel() {
         return liveData
     }
 
-    fun addMonbileNumber(id:String,mobileNumberModel: MobileNumberModel) : LiveData<ResponseModel>
+    fun addMonbileNumber(id:String,role : String,mobileNumberModel: MobileNumberModel) : LiveData<ResponseModel>
     {
         var liveData = MutableLiveData<ResponseModel>()
 
-        Repository .addMobileNumber(id,mobileNumberModel)
+        Repository .addMobileNumber(id,role,mobileNumberModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({
