@@ -13,10 +13,26 @@
         <action
             android:id="@+id/action_masterHome_to_areaPagerFragment"
             app:destination="@id/areaPagerFragment" />
+        <action
+            android:id="@+id/action_masterHome_to_addManagerFragmet"
+            app:destination="@id/addManagerFragmet" />
+        <action
+            android:id="@+id/action_masterHome_to_addDeliveryFragment"
+            app:destination="@id/addDeliveryFragment" />
     </fragment>
     <fragment
         android:id="@+id/areaPagerFragment"
         tools:layout="@layout/fragment_area_pager"
         android:name="com.app.farmfresh.fragmets.master.AreaPagerFragment"
         android:label="Area" />
+    <fragment
+        android:id="@+id/addManagerFragmet"
+        android:name="com.app.farmfresh.fragmets.master.AddManagerFragmet"
+        tools:layout="@layout/fragment_add_manager_fragmet"
+        android:label="Area Managers" />
+    <fragment
+        android:id="@+id/addDeliveryFragment"
+        tools:layout="@layout/fragment_add_delivery"
+        android:name="com.app.farmfresh.fragmets.master.AddDeliveryFragment"
+        android:label="Delivery Boys" />
 </navigation>

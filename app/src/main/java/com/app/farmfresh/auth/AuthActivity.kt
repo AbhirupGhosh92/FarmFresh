@@ -25,6 +25,7 @@ import com.app.farmfresh.R
 import com.app.farmfresh.activities.MasterActivity
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.databinding.AuthLayoutBinding
+import com.app.farmfresh.models.CheckAccessModel
 import com.app.farmfresh.models.MobileNumberModel
 import com.app.farmfresh.utils.Utils
 import com.firebase.ui.auth.AuthUI
@@ -40,7 +41,7 @@ import com.google.firebase.auth.*
 
 class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 
-    private lateinit var firebaseUser: FirebaseUser
+    private  var firebaseUser: FirebaseUser? = null
     private val RC_SIGN_IN = 11
     private val RC_SIGN_IN_NON_DEFAULT = 12
     private lateinit var dataBindinng : AuthLayoutBinding
@@ -92,6 +93,13 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
             requestOpp()
         }
 
+        firebaseUser = FirebaseAuth.getInstance().currentUser
+
+        if( firebaseUser!=null && firebaseUser?.email.isNullOrEmpty().not())
+        {
+            dataBindinng.tvEmailId.text = "Welcome\n${firebaseUser?.email}"
+        }
+
         dataBindinng.btnReenterMobile.setOnClickListener {
             dataBindinng.ccp.visibility = View.VISIBLE
             dataBindinng.edtEnterMobile.visibility = View.VISIBLE
@@ -113,7 +121,10 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                if(otp == code)
                {
 
-                   authViewModel.addMonbileNumber(FirebaseAuth.getInstance().uid.toString(),BuildConfig.FLAVOR,MobileNumberModel(dataBindinng.ccp.selectedCountryCodeWithPlus+dataBindinng.edtEnterMobile.text.toString()))
+                   authViewModel.addMonbileNumber(MobileNumberModel(
+                       FirebaseAuth.getInstance().uid.toString()
+                       ,dataBindinng.ccp.selectedCountryCodeWithPlus+dataBindinng.edtEnterMobile.text.toString()
+                   ))
                        .observe(mContext as LifecycleOwner, Observer {
                            if(it.status == 200)
                            {
@@ -332,7 +343,11 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                         firebaseAuthWithGoogle(account.idToken!!)
                         {
 
-                            authViewModel.checkAccess(it?.uid.toString())
+                            dataBindinng.tvEmailId.text = "Welcome\n${account.email}"
+
+                            authViewModel.checkAccess(
+                                CheckAccessModel(FirebaseAuth.getInstance().uid.toString())
+                            )
                                 .observe(this as LifecycleOwner, Observer {
 
                                     if (it.data.accessGranted && it.data.mobileAdded) {

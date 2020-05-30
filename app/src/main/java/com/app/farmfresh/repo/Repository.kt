@@ -1,5 +1,7 @@
 package com.app.farmfresh.repo
 
+import com.app.farmfresh.models.CheckAccessModel
+import com.app.farmfresh.models.GrantAccessModel
 import com.app.farmfresh.models.MobileNumberModel
 import com.app.farmfresh.models.UserModel
 import com.app.farmfresh.network.ApiModule
@@ -56,9 +58,9 @@ object Repository  {
     }
 
     
-    fun checkAccess(userId : String) : Flowable<CheckAccessResponseModel?>?
+    fun checkAccess(checkAccessModel: CheckAccessModel) : Flowable<CheckAccessResponseModel?>?
     {
-        return networkClient.checkAccess(userId)?.defaultIfEmpty(
+        return networkClient.checkAccess(checkAccessModel)?.defaultIfEmpty(
             defaultResponseModel.clone<CheckAccessResponseModel>() as CheckAccessResponseModel
         )
     }
@@ -69,9 +71,15 @@ object Repository  {
         return networkClient.createUser(user)?.defaultIfEmpty(defaultResponseModel)
     }
 
-    fun addMobileNumber(id: String,role : String,mobileNumberModel: MobileNumberModel) : Flowable<ResponseModel?>?
+    fun addMobileNumber(mobileNumberModel: MobileNumberModel) : Flowable<ResponseModel?>?
     {
-        return networkClient.addMobileNumber(id,role,mobileNumberModel)?.defaultIfEmpty(
+        return networkClient.addMobileNumber(mobileNumberModel)?.defaultIfEmpty(
+            defaultResponseModel)
+    }
+
+    fun grantAccess(grantAccessModel: GrantAccessModel) : Flowable<ResponseModel?>?
+    {
+        return networkClient.grantAccess(grantAccessModel)?.defaultIfEmpty(
             defaultResponseModel)
     }
 

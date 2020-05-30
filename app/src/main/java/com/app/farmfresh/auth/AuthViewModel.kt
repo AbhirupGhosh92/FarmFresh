@@ -3,6 +3,7 @@ package com.app.farmfresh.auth
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.app.farmfresh.models.CheckAccessModel
 import com.app.farmfresh.models.MobileNumberModel
 import com.app.farmfresh.models.UserModel
 import com.app.farmfresh.repo.Repository
@@ -14,11 +15,11 @@ import org.json.JSONObject
 
 class AuthViewModel : ViewModel() {
 
-    fun checkAccess(id : String) : LiveData<CheckAccessResponseModel>
+    fun checkAccess(checkAccessModel: CheckAccessModel) : LiveData<CheckAccessResponseModel>
     {
         var liveData = MutableLiveData<CheckAccessResponseModel>()
 
-        Repository .checkAccess(id)
+        Repository .checkAccess(checkAccessModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({
@@ -30,11 +31,11 @@ class AuthViewModel : ViewModel() {
         return liveData
     }
 
-    fun addMonbileNumber(id:String,role : String,mobileNumberModel: MobileNumberModel) : LiveData<ResponseModel>
+    fun addMonbileNumber(mobileNumberModel: MobileNumberModel) : LiveData<ResponseModel>
     {
         var liveData = MutableLiveData<ResponseModel>()
 
-        Repository .addMobileNumber(id,role,mobileNumberModel)
+        Repository .addMobileNumber(mobileNumberModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({

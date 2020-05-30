@@ -4,6 +4,7 @@ object Constants {
 
     var AREA_MANAGERS = "Area Managers"
     var AREAS = "Areas"
+    var DELIVERY_BOYS = "Delivery Boys"
 
     var master = "master"
     var delivery = "delivery"

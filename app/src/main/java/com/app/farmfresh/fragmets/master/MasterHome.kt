@@ -75,7 +75,12 @@ class MasterHome : Fragment() {
 
                 Constants.AREA_MANAGERS ->
                 {
-                    navController.navigate(R.id.action_masterHome_to_areaPagerFragment)
+                    navController.navigate(R.id.action_masterHome_to_addManagerFragmet)
+                }
+
+                Constants.DELIVERY_BOYS ->
+                {
+                    navController.navigate(R.id.action_masterHome_to_addDeliveryFragment)
                 }
             }
         }
