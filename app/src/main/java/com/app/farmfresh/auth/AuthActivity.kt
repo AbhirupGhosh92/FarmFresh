@@ -25,12 +25,16 @@ import com.app.farmfresh.R
 import com.app.farmfresh.activities.MasterActivity
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.databinding.AuthLayoutBinding
+import com.app.farmfresh.models.AddressModel
 import com.app.farmfresh.models.CheckAccessModel
 import com.app.farmfresh.models.MobileNumberModel
+import com.app.farmfresh.models.UserDetailsModel
+import com.app.farmfresh.repo.models.CheckAccessData
 import com.app.farmfresh.utils.Utils
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -56,6 +60,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
     private  var code = ""
     private var mContext = this
     private lateinit var authViewModel : AuthViewModel
+    private lateinit var accountAccount : GoogleSignInAccount
 
 
     private val  callbacks =  object  : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
@@ -234,7 +239,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 
 
 
-    fun startAuth()
+    private fun startAuth()
     {
        manageUi()
 
@@ -337,13 +342,13 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                     val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                     try {
                         // Google Sign In was successful, authenticate with Firebase
-                        val account = task.getResult(ApiException::class.java)!!
-                        Log.d("auth", "firebaseAuthWithGoogle:" + account.id)
+                        accountAccount = task.getResult(ApiException::class.java)!!
+                        Log.d("auth", "firebaseAuthWithGoogle:" + accountAccount.id)
 
-                        firebaseAuthWithGoogle(account.idToken!!)
+                        firebaseAuthWithGoogle(accountAccount.idToken!!)
                         {
 
-                            dataBindinng.tvEmailId.text = "Welcome\n${account.email}"
+                            dataBindinng.tvEmailId.text = "Welcome\n${accountAccount.email}"
 
                             authViewModel.checkAccess(
                                 CheckAccessModel(FirebaseAuth.getInstance().uid.toString())
@@ -351,11 +356,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                                 .observe(this as LifecycleOwner, Observer {
 
                                     if (it.data.accessGranted && it.data.mobileAdded) {
-                                        var intent = Intent(this,MasterActivity::class.java)
-                                        var bundle = Bundle()
-                                        bundle.putSerializable("accessData",it.data)
-                                        finish()
-                                        startActivity(intent)
+                                       checkData(it.data)
                                     } else if (it.data.accessGranted && it.data.mobileAdded.not()) {
                                         manageUi(ENTER_MOBILE)
                                     } else if (it.data.accessGranted.not()) {
@@ -393,6 +394,57 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                     dataBindinng.btnReenterMobile.visibility = View.VISIBLE
                 }
             }
+        }
+    }
+
+    private fun checkData(accessData : CheckAccessData)
+    {
+        if(accessData.detailsAdded || BuildConfig.FLAVOR == Constants.master)
+        {
+            var intent = Intent(this,MasterActivity::class.java)
+            var bundle = Bundle()
+            bundle.putSerializable("accessData",accessData)
+            finish()
+            startActivity(intent)
+        }
+        else
+        {
+            var fragment = SignUpFragmentFragment{
+                if(it)
+                {
+
+                    authViewModel.addUserDetails(UserDetailsModel(
+                        firebaseUser?.uid.toString(),
+                        accountAccount.email.toString(),"",accountAccount.displayName.toString(),
+                        AddressModel(
+                            true,
+                            "712136","","","","",""
+                        )
+                    )).observe(this as LifecycleOwner, Observer {
+
+                       if(it.status == 200) {
+                           var intent = Intent(this, MasterActivity::class.java)
+                           var bundle = Bundle()
+                           bundle.putSerializable("accessData", accessData)
+                           finish()
+                           startActivity(intent)
+                       }
+                        else
+                       {
+                           Snackbar.make(dataBindinng.root,it.responseMessage,Snackbar.LENGTH_SHORT).show()
+                       }
+                    })
+
+
+
+                }
+                else
+                {
+                    //TODO Add address again
+                }
+            }
+
+            fragment.show(supportFragmentManager,"add_address")
         }
     }
 

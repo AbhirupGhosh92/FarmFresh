@@ -1,9 +1,6 @@
 package com.app.farmfresh.repo
 
-import com.app.farmfresh.models.CheckAccessModel
-import com.app.farmfresh.models.GrantAccessModel
-import com.app.farmfresh.models.MobileNumberModel
-import com.app.farmfresh.models.UserModel
+import com.app.farmfresh.models.*
 import com.app.farmfresh.network.ApiModule
 import com.app.farmfresh.network.NetworkInterface
 import com.app.farmfresh.repo.models.AreaModel
@@ -80,6 +77,12 @@ object Repository  {
     fun grantAccess(grantAccessModel: GrantAccessModel) : Flowable<ResponseModel?>?
     {
         return networkClient.grantAccess(grantAccessModel)?.defaultIfEmpty(
+            defaultResponseModel)
+    }
+
+    fun addUserDetails(grantAccessModel: UserDetailsModel) : Flowable<ResponseModel?>?
+    {
+        return networkClient.addUserDetails(grantAccessModel)?.defaultIfEmpty(
             defaultResponseModel)
     }
 

@@ -2,6 +2,7 @@ package com.app.farmfresh.fragmets.master
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.util.Patterns
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -74,17 +75,7 @@ class AddManagerFragmet : Fragment() {
         dataBindinng.rvManagerList.itemAnimator = DefaultItemAnimator()
         dataBindinng.rvManagerList.adapter?.notifyDataSetChanged()
 
-
-        FirebaseDatabase.getInstance().getReference("/manager").addValueEventListener(object : ValueEventListener{
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-              var item =  p0
-            }
-
-        })
+        
 
     }
 }

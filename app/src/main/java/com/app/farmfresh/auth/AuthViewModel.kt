@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.farmfresh.models.CheckAccessModel
 import com.app.farmfresh.models.MobileNumberModel
+import com.app.farmfresh.models.UserDetailsModel
 import com.app.farmfresh.models.UserModel
 import com.app.farmfresh.repo.Repository
 import com.app.farmfresh.repo.models.CheckAccessResponseModel
@@ -45,6 +46,23 @@ class AuthViewModel : ViewModel() {
             })
 
         return liveData
+    }
+
+    fun addUserDetails(userDetailsModel: UserDetailsModel) : LiveData<ResponseModel>
+    {
+        var liveData = MutableLiveData<ResponseModel>()
+
+        Repository.addUserDetails(userDetailsModel)
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe ({
+                liveData.value = it
+            },{
+                it.printStackTrace()
+            })
+
+        return liveData
+
     }
 
     fun createUser(user : UserModel) : LiveData<ResponseModel>

@@ -1,3 +1,13 @@
 package com.app.farmfresh.models
 
-data class UserDetailsModel(var email : String)
+import com.app.farmfresh.BuildConfig
+
+data class UserDetailsModel(
+                            var uid : String,
+                            var email : String,
+                            var phoneNumber : String,
+                            var name : String,
+                            var address : AddressModel,
+                            var role : String = BuildConfig.FLAVOR
+
+)

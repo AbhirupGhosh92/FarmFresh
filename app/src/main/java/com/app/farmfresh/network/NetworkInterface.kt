@@ -2,10 +2,7 @@ package com.app.farmfresh.network
 
 import android.os.Build
 import com.app.farmfresh.BuildConfig
-import com.app.farmfresh.models.CheckAccessModel
-import com.app.farmfresh.models.GrantAccessModel
-import com.app.farmfresh.models.MobileNumberModel
-import com.app.farmfresh.models.UserModel
+import com.app.farmfresh.models.*
 import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.repo.models.CheckAccessResponseModel
 import com.app.farmfresh.repo.models.DeliveryBoyModel
@@ -44,5 +41,8 @@ interface NetworkInterface {
 
     @POST("grantAccess/")
     fun grantAccess( @Body grantAccessModel: GrantAccessModel) : Flowable<ResponseModel?>?
+
+    @POST("addUserDetails/")
+    fun addUserDetails( @Body grantAccessModel: UserDetailsModel) : Flowable<ResponseModel?>?
 }
 
