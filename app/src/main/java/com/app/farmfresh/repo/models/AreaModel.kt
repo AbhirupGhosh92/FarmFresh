@@ -7,4 +7,5 @@ data class AreaModel(
     @SerializedName("name")var name:String,
     @SerializedName("minimumBill")var minimumBill : Float,
     @SerializedName("deliveryCharge")var deliveryCharge : Float,
-    @SerializedName("manager")var manager : String = ""):Serializable
+    @SerializedName("manager")var manager : String = "",
+    @SerializedName("areaId")var areaId: String = "${name}_${minimumBill.toInt()}_${manager}"):Serializable

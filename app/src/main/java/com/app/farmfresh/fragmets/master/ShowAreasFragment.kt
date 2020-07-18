@@ -17,6 +17,12 @@ import com.app.farmfresh.adapters.ShowAreaAdapter
 import com.app.farmfresh.databinding.FragmentShowAreasBinding
 import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class ShowAreasFragment : Fragment() {
 
@@ -49,10 +55,23 @@ class ShowAreasFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(AreaFragmentViewModel::class.java)
 
+
         viewModel.getAreaList()?.observe(viewLifecycleOwner, Observer {
-//            areaList.clear()
-//            areaList.addAll(it)
-//            dataBinding.rvAreaData.adapter?.notifyDataSetChanged()
+
+            if(it.isNullOrEmpty().not()) {
+
+                dataBinding.rvAreaData.visibility = View.VISIBLE
+                dataBinding.tvNoData.visibility = View.GONE
+
+                areaList.clear()
+                areaList.addAll(it)
+                dataBinding.rvAreaData.adapter?.notifyDataSetChanged()
+            }
+            else
+            {
+                dataBinding.rvAreaData.visibility = View.GONE
+                dataBinding.tvNoData.visibility = View.VISIBLE
+            }
         })
     }
 }

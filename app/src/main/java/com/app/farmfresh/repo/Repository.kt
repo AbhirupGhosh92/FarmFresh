@@ -7,11 +7,22 @@ import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.repo.models.CheckAccessData
 import com.app.farmfresh.repo.models.CheckAccessResponseModel
 import com.app.farmfresh.repo.models.ResponseModel
-import io.reactivex.rxjava3.core.Flowable
+import com.google.firebase.database.*
+import com.google.gson.Gson
+import io.reactivex.rxjava3.core.*
+import org.intellij.lang.annotations.Flow
+import org.reactivestreams.Subscriber
 
 object Repository  {
 
-    
+
+    private var db : FirebaseDatabase = FirebaseDatabase.getInstance().also {
+        it.setLogLevel(Logger.Level.DEBUG)
+        it.setPersistenceEnabled(true)
+    }
+
+
+
     private var networkClient: NetworkInterface = ApiModule.networkInterface
     
     private val defaultResponseModel = ResponseModel(504,"GATEWAY TIMEOUT","{}")
@@ -29,11 +40,30 @@ object Repository  {
         }
     }
 
-
-
     fun heartBeat() : Flowable<ResponseModel?>?
     {
         return networkClient.heartBeat()?.defaultIfEmpty(defaultResponseModel)
+    }
+
+    fun getAreaList() : Flowable<Iterable<DataSnapshot>>
+    {
+        return Flowable.create({
+
+            db.getReference("area/").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+
+                override fun onDataChange(p0: DataSnapshot) {
+
+                    if(p0.value!=null) {
+                       it.onNext(p0.children)
+                    }
+                }
+
+            })
+
+        },BackpressureStrategy.BUFFER)
     }
 
     
@@ -85,5 +115,7 @@ object Repository  {
         return networkClient.addUserDetails(grantAccessModel)?.defaultIfEmpty(
             defaultResponseModel)
     }
+
+
 
 }
