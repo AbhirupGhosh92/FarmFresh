@@ -82,6 +82,11 @@ class MasterHome : Fragment() {
                 {
                     navController.navigate(R.id.action_masterHome_to_addDeliveryFragment)
                 }
+
+                Constants.COUPONS ->
+                {
+                    navController.navigate(R.id.action_masterHome_to_couponPagerFragment)
+                }
             }
         }
 

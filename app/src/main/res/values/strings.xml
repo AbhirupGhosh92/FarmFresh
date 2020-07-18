@@ -5,6 +5,9 @@
     <string name="enter_mobile_Number">Enter Mobile Number</string>
     <string name="next">Next</string>
     <string name="area_name">Area Name</string>
+    <string name="coupon_id">Coupon Id</string>
+    <string name="coupon_value">Coupon Value</string>
+    <string name="coupon_desc">Description</string>
     <string name="min_bill">Minimum Bill</string>
     <string name="del_charge">Delivery Charges</string>
     <string name="enter_oyp">Enter OTP</string>

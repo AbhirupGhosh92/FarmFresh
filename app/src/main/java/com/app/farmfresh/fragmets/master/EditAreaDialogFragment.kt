@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -14,9 +15,10 @@ import com.app.farmfresh.R
 import com.app.farmfresh.databinding.FragmentEditAreaDialogBinding
 import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
-class EditAreaDialogFragment : DialogFragment() {
+class EditAreaDialogFragment : Fragment() {
    
     private lateinit var dataBinding : FragmentEditAreaDialogBinding
     private lateinit var viewModel : AreaFragmentViewModel
@@ -24,8 +26,7 @@ class EditAreaDialogFragment : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        areaModel = arguments?.getSerializable("area_model") as AreaModel
+        areaModel = arguments?.getSerializable("area_model") as AreaModel?
     }
 
     override fun onCreateView(
@@ -79,4 +80,26 @@ class EditAreaDialogFragment : DialogFragment() {
                 Toast.makeText(requireContext(),resources.getString(R.string.enter_valid_feilds),Toast.LENGTH_SHORT).show()
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        //activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        // Trigger the initial hide() shortly after the activity has been
+        // created, to briefly hint to the user that UI controls
+        // are available.
+    }
+
+    override fun onPause() {
+        super.onPause()
+        //activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+
+        // Clear the systemUiVisibility flag
+       // activity?.window?.decorView?.systemUiVisibility = 0
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 }

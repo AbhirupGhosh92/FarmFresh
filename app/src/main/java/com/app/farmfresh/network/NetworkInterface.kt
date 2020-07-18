@@ -3,10 +3,7 @@ package com.app.farmfresh.network
 import android.os.Build
 import com.app.farmfresh.BuildConfig
 import com.app.farmfresh.models.*
-import com.app.farmfresh.repo.models.AreaModel
-import com.app.farmfresh.repo.models.CheckAccessResponseModel
-import com.app.farmfresh.repo.models.DeliveryBoyModel
-import com.app.farmfresh.repo.models.ResponseModel
+import com.app.farmfresh.repo.models.*
 import io.reactivex.rxjava3.core.Flowable
 import org.json.JSONObject
 import retrofit2.Call
@@ -24,8 +21,19 @@ interface NetworkInterface {
     @POST("editArea/")
     fun editArea(@Body areaModel:AreaModel) : Flowable<ResponseModel?>?
 
+
     @POST("deleteArea/")
     fun deleteArea(@Body areaModel:AreaModel) : Flowable<ResponseModel?>?
+
+    @POST("addCoupon/")
+    fun addCoupon(@Body couponModel: CouponModel) : Flowable<ResponseModel?>?
+
+    @POST("editCoupon/")
+    fun editCoupon(@Body couponModel: CouponModel) : Flowable<ResponseModel?>?
+
+
+    @POST("deleteCoupon/")
+    fun deleteCoupon(@Body couponModel: CouponModel) : Flowable<ResponseModel?>?
 
     @POST("createDeliveryBoy/")
     fun createDeliveryBoy(@Body deliveryBoyModel: DeliveryBoyModel) : Flowable<ResponseModel?>?

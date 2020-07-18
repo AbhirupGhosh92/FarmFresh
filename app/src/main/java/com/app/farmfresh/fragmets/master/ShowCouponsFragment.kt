@@ -1,7 +1,5 @@
 package com.app.farmfresh.fragmets.master
 
-import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,21 +13,19 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.farmfresh.R
 import com.app.farmfresh.adapters.ShowAreaAdapter
+import com.app.farmfresh.adapters.ShowCouponAdapter
 import com.app.farmfresh.databinding.FragmentShowAreasBinding
+import com.app.farmfresh.databinding.FragmentShowCouponsBinding
 import com.app.farmfresh.repo.models.AreaModel
+import com.app.farmfresh.repo.models.CouponModel
 import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.app.farmfresh.viewmodels.master.CouponFragmentViewModel
 
-class ShowAreasFragment : Fragment() {
+class ShowCouponsFragment : Fragment() {
 
-    private var areaList = mutableListOf<AreaModel>()
-    private lateinit var dataBinding : FragmentShowAreasBinding
-    private lateinit var viewModel : AreaFragmentViewModel
+    private var couponList = mutableListOf<CouponModel>()
+    private lateinit var dataBinding : FragmentShowCouponsBinding
+    private lateinit var viewModel : CouponFragmentViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -40,12 +36,12 @@ class ShowAreasFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_show_areas,container,false)
+        dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_show_coupons,container,false)
 
-        dataBinding.rvAreaData.adapter = ShowAreaAdapter(findNavController(),areaList)
-        dataBinding.rvAreaData.itemAnimator = DefaultItemAnimator()
-        dataBinding.rvAreaData.layoutManager = LinearLayoutManager(requireContext())
-        dataBinding.rvAreaData.adapter?.notifyDataSetChanged()
+        dataBinding.rvCouponData.adapter = ShowCouponAdapter(findNavController(),couponList)
+        dataBinding.rvCouponData.itemAnimator = DefaultItemAnimator()
+        dataBinding.rvCouponData.layoutManager = LinearLayoutManager(requireContext())
+        dataBinding.rvCouponData.adapter?.notifyDataSetChanged()
 
         return dataBinding.root
     }
@@ -54,23 +50,21 @@ class ShowAreasFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(AreaFragmentViewModel::class.java)
-
-
-        viewModel.getAreaList()?.observe(viewLifecycleOwner, Observer {
+        viewModel = ViewModelProviders.of(this).get(CouponFragmentViewModel::class.java)
+        viewModel.getCouponList()?.observe(viewLifecycleOwner, Observer {
 
             if(it.isNullOrEmpty().not()) {
 
-                dataBinding.rvAreaData.visibility = View.VISIBLE
+                dataBinding.rvCouponData.visibility = View.VISIBLE
                 dataBinding.tvNoData.visibility = View.GONE
 
-                areaList.clear()
-                areaList.addAll(it)
-                dataBinding.rvAreaData.adapter?.notifyDataSetChanged()
+                couponList.clear()
+                couponList.addAll(it)
+                dataBinding.rvCouponData.adapter?.notifyDataSetChanged()
             }
             else
             {
-                dataBinding.rvAreaData.visibility = View.GONE
+                dataBinding.rvCouponData.visibility = View.GONE
                 dataBinding.tvNoData.visibility = View.VISIBLE
             }
         })

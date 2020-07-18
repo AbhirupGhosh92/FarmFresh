@@ -19,12 +19,19 @@
         <action
             android:id="@+id/action_masterHome_to_addDeliveryFragment"
             app:destination="@id/addDeliveryFragment" />
+        <action
+            android:id="@+id/action_masterHome_to_couponPagerFragment"
+            app:destination="@id/couponPagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/areaPagerFragment"
         tools:layout="@layout/fragment_area_pager"
         android:name="com.app.farmfresh.fragmets.master.AreaPagerFragment"
-        android:label="Area" />
+        android:label="Area" >
+        <action
+            android:id="@+id/action_areaPagerFragment_to_editAreaDialogFragment"
+            app:destination="@id/editAreaDialogFragment" />
+    </fragment>
     <fragment
         android:id="@+id/addManagerFragmet"
         android:name="com.app.farmfresh.fragmets.master.AddManagerFragmet"
@@ -35,4 +42,14 @@
         tools:layout="@layout/fragment_add_delivery"
         android:name="com.app.farmfresh.fragmets.master.AddDeliveryFragment"
         android:label="Delivery Boys" />
+    <fragment
+        android:id="@+id/editAreaDialogFragment"
+        tools:layout="@layout/fragment_edit_area_dialog"
+        android:name="com.app.farmfresh.fragmets.master.EditAreaDialogFragment"
+        android:label="Edit Area" />
+    <fragment
+        android:id="@+id/couponPagerFragment"
+        android:name="com.app.farmfresh.fragmets.master.CouponPagerFragment"
+        android:label="Coupons"
+        tools:layout="@layout/fragment_area_pager" />
 </navigation>
