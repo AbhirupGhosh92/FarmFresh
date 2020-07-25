@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.farmfresh.R
 import com.app.farmfresh.adapters.UserListAdapter
 import com.app.farmfresh.constants.Constants
+import com.app.farmfresh.databinding.FragmentAddDeliveryBinding
 import com.app.farmfresh.databinding.FragmentAddManagerFragmetBinding
 import com.app.farmfresh.models.GrantAccessModel
 import com.app.farmfresh.models.UserDetailsModel
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener
 
 
 class AddDeliveryFragment : Fragment() {
-    private lateinit var dataBindinng : FragmentAddManagerFragmetBinding
+    private lateinit var dataBindinng : FragmentAddDeliveryBinding
     private var managerList = arrayListOf<UserDetailsModel>()
     private lateinit var viewModel : EditManagerViewModel
 
@@ -39,7 +40,7 @@ class AddDeliveryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        dataBindinng = DataBindingUtil.inflate(inflater, R.layout.fragment_add_manager_fragmet, container, false)
+        dataBindinng = DataBindingUtil.inflate(inflater, R.layout.fragment_add_delivery, container, false)
         return dataBindinng.root
     }
 
@@ -50,11 +51,11 @@ class AddDeliveryFragment : Fragment() {
 
         dataBindinng.button.setOnClickListener {
 
-            if(dataBindinng.edtAddManager.text.isNullOrEmpty().not() && Patterns.EMAIL_ADDRESS.matcher(dataBindinng.edtAddManager.text.toString()).matches())
+            if(dataBindinng.edtAddDelBoy.text.isNullOrEmpty().not() && Patterns.EMAIL_ADDRESS.matcher(dataBindinng.edtAddDelBoy.text.toString()).matches())
             {
                 viewModel.grantAccess(
                     GrantAccessModel(
-                    dataBindinng.edtAddManager.text.toString(), Constants.delivery
+                    dataBindinng.edtAddDelBoy.text.toString(), Constants.delivery
                 )
                 ).observe(viewLifecycleOwner, Observer {
                     Snackbar.make(dataBindinng.root,it.responseMessage, Snackbar.LENGTH_SHORT).show()
@@ -67,13 +68,13 @@ class AddDeliveryFragment : Fragment() {
 
         }
 
-        dataBindinng.rvManagerList.adapter = UserListAdapter(managerList)
-        dataBindinng.rvManagerList.layoutManager = LinearLayoutManager(requireContext())
-        dataBindinng.rvManagerList.itemAnimator = DefaultItemAnimator()
-        dataBindinng.rvManagerList.adapter?.notifyDataSetChanged()
+        dataBindinng.rvDeliveryList.adapter = UserListAdapter(managerList)
+        dataBindinng.rvDeliveryList.layoutManager = LinearLayoutManager(requireContext())
+        dataBindinng.rvDeliveryList.itemAnimator = DefaultItemAnimator()
+        dataBindinng.rvDeliveryList.adapter?.notifyDataSetChanged()
 
 
-        FirebaseDatabase.getInstance().getReference("/manager").addValueEventListener(object :
+        FirebaseDatabase.getInstance().getReference("/delivery").addValueEventListener(object :
             ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 

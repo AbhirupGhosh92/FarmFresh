@@ -51,5 +51,14 @@
         android:id="@+id/couponPagerFragment"
         android:name="com.app.farmfresh.fragmets.master.CouponPagerFragment"
         android:label="Coupons"
-        tools:layout="@layout/fragment_area_pager" />
+        tools:layout="@layout/fragment_area_pager" >
+        <action
+            android:id="@+id/action_couponPagerFragment_to_addEditCouponFragment"
+            app:destination="@id/addEditCouponFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditCouponFragment"
+        android:name="com.app.farmfresh.master.AddEditCouponFragment"
+        android:label="Edit Coupons"
+        tools:layout="@layout/fragment_add_edit_coupon" />
 </navigation>

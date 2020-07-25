@@ -36,8 +36,7 @@ class ShowCouponAdapter(var fragmentManager : NavController,var list : List<Coup
             var bundle = Bundle().also {
                 it.putSerializable("coupon_model",list[position])
             }
-
-            fragmentManager.navigate(R.id.action_areaPagerFragment_to_editAreaDialogFragment,bundle)
+            fragmentManager.navigate(R.id.action_couponPagerFragment_to_addEditCouponFragment,bundle)
 
         }
 

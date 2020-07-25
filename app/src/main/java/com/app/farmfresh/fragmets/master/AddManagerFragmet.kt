@@ -28,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class AddManagerFragmet : Fragment() {
+class xAddManagerFragmet : Fragment() {
 
     private lateinit var dataBindinng : FragmentAddManagerFragmetBinding
     private var managerList = arrayListOf<UserDetailsModel>()
