@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -50,7 +51,7 @@ class ShowCouponsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(CouponFragmentViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(CouponFragmentViewModel::class.java)
         viewModel.getCouponList()?.observe(viewLifecycleOwner, Observer {
 
             if(it.isNullOrEmpty().not()) {

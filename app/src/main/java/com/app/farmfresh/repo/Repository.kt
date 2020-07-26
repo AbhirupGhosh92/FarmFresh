@@ -139,13 +139,13 @@ object Repository  {
 
     fun editCoupon(couponModel: CouponModel) : Flowable<ResponseModel?>?
     {
-        return networkClient.addCoupon(couponModel)?.defaultIfEmpty(defaultResponseModel)
+        return networkClient.editCoupon(couponModel)?.defaultIfEmpty(defaultResponseModel)
     }
 
 
     fun deleteCoupon(couponModel: CouponModel) : Flowable<ResponseModel?>?
     {
-        return networkClient.addCoupon(couponModel)?.defaultIfEmpty(defaultResponseModel)
+        return networkClient.deleteCoupon(couponModel)?.defaultIfEmpty(defaultResponseModel)
     }
 
 

@@ -39,5 +39,6 @@
     <string name="manager">Manager</string>
     <string name="coupon_name">Coupon Name</string>
     <string name="coupon_code">Coupon Code</string>
+    <string name="coupon_amount">Coupon Amount</string>
     <string name="coupon_details">Coupon Details</string>
 </resources>

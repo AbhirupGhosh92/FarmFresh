@@ -36,12 +36,13 @@ class AreaFragmentViewModel : ViewModel() {
         return liveData
     }
 
+
     fun deleteArea(areaModel: AreaModel) : LiveData<ResponseModel>
     {
 
         var liveData = MutableLiveData<ResponseModel>()
 
-        Repository.addArea(areaModel)
+        Repository.deleteArea(areaModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({
@@ -57,7 +58,7 @@ class AreaFragmentViewModel : ViewModel() {
     {
         var liveData = MutableLiveData<ResponseModel>()
 
-        Repository.addArea(areaModel)
+        Repository.editArea(areaModel)
             ?.subscribeOn(Schedulers.io())
             ?.observeOn(AndroidSchedulers.mainThread())
             ?.subscribe ({resp ->

@@ -11,12 +11,14 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.app.farmfresh.R
 import com.app.farmfresh.databinding.FragmentEditAreaDialogBinding
 import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 
 
 class EditAreaDialogFragment : Fragment() {
@@ -65,9 +67,11 @@ class EditAreaDialogFragment : Fragment() {
                     dataBinding.edtMinBill.text.toString().toFloat(),
                     dataBinding.edtDellCharge.text.toString().toFloat(), dataBinding.edtAreaId.text.toString()
                 )
-                )
+                ).observe(viewLifecycleOwner, Observer {
+                    Snackbar.make(dataBinding.root,it.data,Snackbar.LENGTH_SHORT).show()
+                })
             else
-                Toast.makeText(requireContext(),resources.getString(R.string.enter_valid_feilds),Toast.LENGTH_SHORT).show()
+                Snackbar.make(dataBinding.root,resources.getString(R.string.enter_valid_feilds),Snackbar.LENGTH_SHORT).show()
         }
 
         dataBinding.btnDelete.setOnClickListener {
@@ -78,9 +82,11 @@ class EditAreaDialogFragment : Fragment() {
                     dataBinding.edtMinBill.text.toString().toFloat(),
                     dataBinding.edtDellCharge.text.toString().toFloat(),
                     dataBinding.edtAreaId.text.toString()
-                ))
+                )).observe(viewLifecycleOwner, Observer {
+                    Snackbar.make(dataBinding.root,it.data,Snackbar.LENGTH_SHORT).show()
+                })
             else
-                Toast.makeText(requireContext(),resources.getString(R.string.enter_valid_feilds),Toast.LENGTH_SHORT).show()
+                Snackbar.make(dataBinding.root,resources.getString(R.string.enter_valid_feilds),Snackbar.LENGTH_SHORT).show()
         }
     }
 
