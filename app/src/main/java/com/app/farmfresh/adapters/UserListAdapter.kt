@@ -6,9 +6,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.app.farmfresh.R
 import com.app.farmfresh.databinding.UserListItemLayoutBinding
-import com.app.farmfresh.models.UserDetailsModel
+import com.app.farmfresh.models.AddUserDetailsModel
+import com.app.farmfresh.models.GetUserDetailModel
 
-class UserListAdapter(var list : List<UserDetailsModel>) : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
+class UserListAdapter(var list : List<GetUserDetailModel>) : RecyclerView.Adapter<UserListAdapter.ViewHolder>() {
 
     data class ViewHolder(var dataBinding : UserListItemLayoutBinding) : RecyclerView.ViewHolder(dataBinding.root)
 

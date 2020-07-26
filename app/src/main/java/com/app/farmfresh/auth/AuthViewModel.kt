@@ -5,14 +5,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.app.farmfresh.models.CheckAccessModel
 import com.app.farmfresh.models.MobileNumberModel
-import com.app.farmfresh.models.UserDetailsModel
+import com.app.farmfresh.models.AddUserDetailsModel
 import com.app.farmfresh.models.UserModel
 import com.app.farmfresh.repo.Repository
 import com.app.farmfresh.repo.models.CheckAccessResponseModel
 import com.app.farmfresh.repo.models.ResponseModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
-import org.json.JSONObject
 
 class AuthViewModel : ViewModel() {
 
@@ -48,7 +47,7 @@ class AuthViewModel : ViewModel() {
         return liveData
     }
 
-    fun addUserDetails(userDetailsModel: UserDetailsModel) : LiveData<ResponseModel>
+    fun addUserDetails(userDetailsModel: AddUserDetailsModel) : LiveData<ResponseModel>
     {
         var liveData = MutableLiveData<ResponseModel>()
 

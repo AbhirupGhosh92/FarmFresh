@@ -1,7 +1,5 @@
 package com.app.farmfresh.network
 
-import android.os.Build
-import com.app.farmfresh.BuildConfig
 import com.app.farmfresh.models.*
 import com.app.farmfresh.repo.models.*
 import io.reactivex.rxjava3.core.Flowable
@@ -51,6 +49,6 @@ interface NetworkInterface {
     fun grantAccess( @Body grantAccessModel: GrantAccessModel) : Flowable<ResponseModel?>?
 
     @POST("addUserDetails/")
-    fun addUserDetails( @Body grantAccessModel: UserDetailsModel) : Flowable<ResponseModel?>?
+    fun addUserDetails( @Body grantAccessModel: AddUserDetailsModel) : Flowable<ResponseModel?>?
 }
 

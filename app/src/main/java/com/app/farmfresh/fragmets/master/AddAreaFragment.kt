@@ -15,6 +15,7 @@ import com.app.farmfresh.R
 import com.app.farmfresh.databinding.AreaFragmenntFragmentBinding
 import com.app.farmfresh.repo.models.AreaModel
 import com.app.farmfresh.viewmodels.master.AreaFragmentViewModel
+import com.google.android.material.snackbar.Snackbar
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 
@@ -46,14 +47,14 @@ class AddAreaFragment : Fragment() {
                         databinding.edtAreaName.text.toString(),
                         databinding.edtMinBill.text.toString().toFloat(),
                         databinding.edtDellCharge.text.toString().toFloat(),
-                        databinding.edtManagerName.text.toString()
+                        databinding.edtAreaId.text.toString()
                     )
                 ).observe(viewLifecycleOwner, Observer {
-                    Toast.makeText(requireContext(),it.data,Toast.LENGTH_SHORT).show()
+                    Snackbar.make(databinding.root,it.data,Snackbar.LENGTH_SHORT).show()
                 })
             }
             else
-                Toast.makeText(requireContext(),resources.getString(R.string.enter_valid_feilds),Toast.LENGTH_SHORT).show()
+                Snackbar.make(databinding.root,resources.getString(R.string.enter_valid_feilds),Snackbar.LENGTH_SHORT).show()
         }
 
     }

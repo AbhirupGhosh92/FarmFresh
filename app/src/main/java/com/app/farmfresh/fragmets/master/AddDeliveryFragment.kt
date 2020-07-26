@@ -14,9 +14,9 @@ import com.app.farmfresh.R
 import com.app.farmfresh.adapters.UserListAdapter
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.databinding.FragmentAddDeliveryBinding
-import com.app.farmfresh.databinding.FragmentAddManagerFragmetBinding
 import com.app.farmfresh.models.GrantAccessModel
-import com.app.farmfresh.models.UserDetailsModel
+import com.app.farmfresh.models.AddUserDetailsModel
+import com.app.farmfresh.models.GetUserDetailModel
 import com.app.farmfresh.viewmodels.master.EditManagerViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
@@ -27,7 +27,7 @@ import com.google.firebase.database.ValueEventListener
 
 class AddDeliveryFragment : Fragment() {
     private lateinit var dataBindinng : FragmentAddDeliveryBinding
-    private var managerList = arrayListOf<UserDetailsModel>()
+    private var managerList = arrayListOf<GetUserDetailModel>()
     private lateinit var viewModel : EditManagerViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {

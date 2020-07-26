@@ -2,36 +2,26 @@ package com.app.farmfresh.auth
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
-import android.icu.util.TimeUnit
 import android.os.Build
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.*
 import com.app.farmfresh.BuildConfig
-import com.app.farmfresh.FarmFreshApplication
 import com.app.farmfresh.R
 import com.app.farmfresh.activities.MasterActivity
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.databinding.AuthLayoutBinding
-import com.app.farmfresh.models.AddressModel
 import com.app.farmfresh.models.CheckAccessModel
 import com.app.farmfresh.models.MobileNumberModel
-import com.app.farmfresh.models.UserDetailsModel
+import com.app.farmfresh.models.AddUserDetailsModel
 import com.app.farmfresh.repo.models.CheckAccessData
 import com.app.farmfresh.utils.Utils
-import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -40,7 +30,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.FirebaseException
-import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 
 class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
@@ -429,7 +418,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
         {
             var fragment = SignUpFragmentFragment{
 
-                    authViewModel.addUserDetails(UserDetailsModel(
+                    authViewModel.addUserDetails(AddUserDetailsModel(
                         firebaseUser?.uid.toString(),
                         accountAccount.email.toString(),"",accountAccount.displayName.toString(),
                         it

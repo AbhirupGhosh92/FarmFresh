@@ -4,21 +4,26 @@ import com.app.farmfresh.models.*
 import com.app.farmfresh.network.ApiModule
 import com.app.farmfresh.network.NetworkInterface
 import com.app.farmfresh.repo.models.*
+import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
-import com.google.gson.Gson
+import com.google.firebase.database.core.DatabaseConfig
+import com.google.firebase.database.core.RepoInfo
 import io.reactivex.rxjava3.core.*
-import org.intellij.lang.annotations.Flow
-import org.reactivestreams.Subscriber
 
 object Repository  {
 
+    private var db : FirebaseDatabase = FirebaseDatabase.getInstance().apply {
+        setLogLevel(Logger.Level.DEBUG)
+        setPersistenceEnabled(true)
 
-    private var db : FirebaseDatabase = FirebaseDatabase.getInstance().also {
-        it.setLogLevel(Logger.Level.DEBUG)
-        it.setPersistenceEnabled(true)
     }
 
-
+    private fun FirebaseDatabase.getReferenceSync(path : String) : DatabaseReference
+    {
+        var ref = this.getReference(path)
+        ref.keepSynced(true)
+        return ref
+    }
 
     private var networkClient: NetworkInterface = ApiModule.networkInterface
     
@@ -26,6 +31,8 @@ object Repository  {
 
     private inline fun <reified T> ResponseModel.clone() : Any
     {
+
+
         return when(T::class) {
             CheckAccessResponseModel::class -> {
                 CheckAccessResponseModel(CheckAccessData(), this.responseMessage,
@@ -42,11 +49,50 @@ object Repository  {
         return networkClient.heartBeat()?.defaultIfEmpty(defaultResponseModel)
     }
 
+    fun getManagerList() : Flowable<Iterable<DataSnapshot>>
+    {
+
+        return Flowable.create({
+            db.getReferenceSync("userDetails/manager/").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+
+                    if(p0.value!=null) {
+                        it.onNext(p0.children)
+                    }
+                }
+
+            })
+
+        },BackpressureStrategy.BUFFER)
+    }
+
+    fun getDeliveryBoyList() : Flowable<Iterable<DataSnapshot>>
+    {
+        return Flowable.create({
+            db.getReferenceSync("userDetails/delivery/").addValueEventListener(object : ValueEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+
+                }
+                override fun onDataChange(p0: DataSnapshot) {
+
+                    if(p0.value!=null) {
+                        it.onNext(p0.children)
+                    }
+                }
+
+            })
+
+        },BackpressureStrategy.BUFFER)
+    }
+
     fun getAreaList() : Flowable<Iterable<DataSnapshot>>
     {
         return Flowable.create({
 
-            db.getReference("area/").addValueEventListener(object : ValueEventListener{
+            db.getReferenceSync("area/").addValueEventListener(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
 
                 }
@@ -67,7 +113,7 @@ object Repository  {
     {
         return Flowable.create({
 
-            db.getReference("coupon/").addValueEventListener(object : ValueEventListener{
+            db.getReferenceSync("coupon/").addValueEventListener(object : ValueEventListener{
                 override fun onCancelled(p0: DatabaseError) {
 
                 }
@@ -147,7 +193,7 @@ object Repository  {
             defaultResponseModel)
     }
 
-    fun addUserDetails(grantAccessModel: UserDetailsModel) : Flowable<ResponseModel?>?
+    fun addUserDetails(grantAccessModel: AddUserDetailsModel) : Flowable<ResponseModel?>?
     {
         return networkClient.addUserDetails(grantAccessModel)?.defaultIfEmpty(
             defaultResponseModel)

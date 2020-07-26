@@ -20,6 +20,14 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
+                android:id="@+id/edt_area_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/area_id" />
+
+            <EditText
                 android:id="@+id/edt_area_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,13 +51,6 @@
                 android:layout_marginBottom="10dp"
                 android:hint="@string/del_charge" />
 
-            <EditText
-                android:id="@+id/edt_manager_name"
-                android:hint="@string/manager_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="10dp" />
 
             <LinearLayout
                 android:weightSum="1"

@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.ViewModelProvider
 import com.app.farmfresh.R
 import com.app.farmfresh.databinding.FragmentEditAreaDialogBinding
 import com.app.farmfresh.repo.models.AreaModel
@@ -43,24 +44,26 @@ class EditAreaDialogFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        viewModel = ViewModelProvider(this)[AreaFragmentViewModel::class.java]
+
         if(areaModel!=null)
         {
+            dataBinding.edtAreaId.setText(areaModel?.areaId)
+            dataBinding.edtAreaId.isEnabled = false
             dataBinding.edtAreaName.setText(areaModel?.name)
             dataBinding.edtMinBill.setText(areaModel?.minimumBill.toString())
             dataBinding.edtDellCharge.setText(areaModel?.deliveryCharge.toString())
-            dataBinding.edtManagerName.setText(areaModel?.manager)
         }
 
 
         dataBinding.btnEdit.setOnClickListener {
 
-            if(dataBinding.edtAreaName.text.isNullOrEmpty().not() && dataBinding.edtDellCharge.text.isNullOrEmpty() && dataBinding.edtMinBill.text.isNullOrEmpty().not())
+            if(dataBinding.edtAreaId.text.isNullOrEmpty().not() &&  dataBinding.edtAreaName.text.isNullOrEmpty().not() && dataBinding.edtDellCharge.text.isNullOrEmpty().not() && dataBinding.edtMinBill.text.isNullOrEmpty().not())
                 viewModel.editArea(
                     AreaModel(
                     dataBinding.edtAreaName.text.toString(),
                     dataBinding.edtMinBill.text.toString().toFloat(),
-                    dataBinding.edtDellCharge.text.toString().toFloat(),
-                    dataBinding.edtManagerName.text.toString()
+                    dataBinding.edtDellCharge.text.toString().toFloat(), dataBinding.edtAreaId.text.toString()
                 )
                 )
             else
@@ -69,12 +72,12 @@ class EditAreaDialogFragment : Fragment() {
 
         dataBinding.btnDelete.setOnClickListener {
 
-            if(dataBinding.edtAreaName.text.isNullOrEmpty().not() && dataBinding.edtDellCharge.text.isNullOrEmpty() && dataBinding.edtMinBill.text.isNullOrEmpty().not())
+            if(dataBinding.edtAreaId.text.isNullOrEmpty().not() && dataBinding.edtAreaName.text.isNullOrEmpty().not() && dataBinding.edtDellCharge.text.isNullOrEmpty().not() && dataBinding.edtMinBill.text.isNullOrEmpty().not())
                 viewModel.deleteArea(AreaModel(
                     dataBinding.edtAreaName.text.toString(),
                     dataBinding.edtMinBill.text.toString().toFloat(),
                     dataBinding.edtDellCharge.text.toString().toFloat(),
-                    dataBinding.edtManagerName.text.toString()
+                    dataBinding.edtAreaId.text.toString()
                 ))
             else
                 Toast.makeText(requireContext(),resources.getString(R.string.enter_valid_feilds),Toast.LENGTH_SHORT).show()

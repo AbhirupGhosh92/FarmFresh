@@ -1,4 +1,4 @@
-package com.app.farmfresh.master
+package com.app.farmfresh.fragmets.master
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

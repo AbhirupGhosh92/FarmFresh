@@ -29,7 +29,6 @@ class ShowAreaAdapter(var fragmentManager : NavController, var list : List<AreaM
         holder.showAreaItemBinding.tvName.text = list[position].name
         holder.showAreaItemBinding.tvMinimumBill.text = list[position].minimumBill.toString()
         holder.showAreaItemBinding.tvDeliveryCharge.text = list[position].deliveryCharge.toString()
-        holder.showAreaItemBinding.tvManagerName.text = list[position].manager
 
         holder.showAreaItemBinding.root.setOnClickListener {
 
