@@ -61,6 +61,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
     private var mContext = this
     private lateinit var authViewModel : AuthViewModel
     private lateinit var accountAccount : GoogleSignInAccount
+    private lateinit var currentActivity: Activity
 
 
     private val  callbacks =  object  : PhoneAuthProvider.OnVerificationStateChangedCallbacks(){
@@ -86,7 +87,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
        super.onCreate(savedInstanceState)
         dataBindinng = DataBindingUtil.setContentView(this, R.layout.auth_layout)
 
-
+        currentActivity = this
         authViewModel = ViewModelProvider(this)[AuthViewModel::class.java]
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
 
@@ -133,9 +134,26 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
                        .observe(mContext as LifecycleOwner, Observer {
                            if(it.status == 200)
                            {
-                               var intent = Intent(this@AuthActivity,MasterActivity::class.java)
-                               finish()
-                               startActivity(intent)
+
+                               authViewModel.checkAccess(
+                                   CheckAccessModel(FirebaseAuth.getInstance().uid.toString())
+                               )
+                                   .observe(currentActivity as LifecycleOwner, Observer {
+
+                                       if (it.data.accessGranted && it.data.mobileAdded) {
+                                           checkData(it.data)
+                                       } else if (it.data.accessGranted && it.data.mobileAdded.not()) {
+                                           manageUi(ENTER_MOBILE)
+                                       } else if (it.data.accessGranted.not()) {
+                                           Snackbar.make(
+                                               dataBindinng.root,
+                                               "Access Not Granted",
+                                               Snackbar.LENGTH_INDEFINITE
+                                           ).show()
+                                       }
+
+
+                                   })
                            }
                            else
                            {
@@ -410,16 +428,11 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
         else
         {
             var fragment = SignUpFragmentFragment{
-                if(it)
-                {
 
                     authViewModel.addUserDetails(UserDetailsModel(
                         firebaseUser?.uid.toString(),
                         accountAccount.email.toString(),"",accountAccount.displayName.toString(),
-                        AddressModel(
-                            true,
-                            "712136","","","","",""
-                        )
+                        it
                     )).observe(this as LifecycleOwner, Observer {
 
                        if(it.status == 200) {
@@ -437,11 +450,7 @@ class AuthActivity : AppCompatActivity(),ViewModelStoreOwner {
 
 
 
-                }
-                else
-                {
-                    //TODO Add address again
-                }
+
             }
 
             fragment.show(supportFragmentManager,"add_address")

@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/managerHome"
         android:name="com.app.farmfresh.fragmets.managers.ManagerHome"
-        android:label="manager_home_fragment"
+        android:label="Manager Home"
         tools:layout="@layout/manager_home_fragment" />
 </navigation>

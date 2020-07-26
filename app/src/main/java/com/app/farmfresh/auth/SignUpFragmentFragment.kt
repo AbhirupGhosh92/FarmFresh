@@ -7,19 +7,23 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.app.farmfresh.R
 import com.app.farmfresh.databinding.FragmentSignUpFragmentBinding
+import com.app.farmfresh.models.AddressModel
+import com.app.farmfresh.repo.models.AreaModel
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.snackbar.Snackbar
 
 /**
  * An example full-screen fragment that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-class SignUpFragmentFragment(private  var snippet: (dataSet: Boolean) -> Unit) :
+class SignUpFragmentFragment(private  var snippet: (addressModel: AddressModel) -> Unit) :
     BottomSheetDialogFragment() {
 
 
@@ -67,7 +71,24 @@ class SignUpFragmentFragment(private  var snippet: (dataSet: Boolean) -> Unit) :
         visible = true
 
         dataBinding.btnSignUp.setOnClickListener {
-            snippet.invoke(true)
+
+            if(dataBinding.edtAddressCity.text.isNullOrEmpty().not() &&
+                    dataBinding.edtAddressStreet.text.isNullOrEmpty().not() &&
+                        dataBinding.edtAddressLocality.text.isNullOrEmpty().not() &&
+                        dataBinding.edtAddressPincode.text.isNullOrEmpty().not() &&
+                        dataBinding.edtAddressCountry.text.isNullOrEmpty().not() &&
+                        dataBinding.edtAddressState.text.isNullOrEmpty().not()
+                    )
+
+            snippet.invoke(
+                AddressModel(true,dataBinding.edtAddressPincode.text.toString(),dataBinding.edtAddressStreet.text.toString(),
+                    dataBinding.edtAddressLocality.text.toString(),dataBinding.edtAddressCity.text.toString(),
+                    dataBinding.edtAddressState.text.toString(),dataBinding.edtAddressCountry.text.toString()
+
+            )
+            )
+            else
+                Snackbar.make(dataBinding.root,"Please fill all data",Snackbar.LENGTH_SHORT).show()
         }
 
     }

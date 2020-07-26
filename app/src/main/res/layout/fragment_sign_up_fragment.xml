@@ -16,8 +16,34 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/edt_address"
-            android:hint="@string/address"
+            android:id="@+id/edt_address_pincode"
+            android:hint="@string/pincode"
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_address_street"
+            android:hint="@string/street"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_address_locality"
+            android:hint="@string/locality"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_address_city"
+            android:hint="@string/city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_address_state"
+            android:hint="@string/state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/edt_address_country"
+            android:hint="@string/country"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
