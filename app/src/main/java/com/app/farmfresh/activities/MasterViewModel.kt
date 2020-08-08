@@ -10,14 +10,20 @@ import androidx.lifecycle.ViewModel
 import com.app.farmfresh.constants.ChannelID
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.constants.NotificationConstants
+import com.app.farmfresh.models.AddFcmTokenModel
 import com.app.farmfresh.network.ApiModule
+import com.app.farmfresh.repo.Repository
+import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 
 class MasterViewModel : ViewModel() {
 
+    private lateinit var context: Context
     fun init(context: Context)
     {
+        this.context = context
         getFirebaseToken()
         ChannelID.values().forEach {
             createNotificationChannel(context,it)
@@ -36,6 +42,15 @@ class MasterViewModel : ViewModel() {
                 {
                     Log.d("FCM", "token:${task.result?.token.toString()}")
                     ApiModule.fcmToken = task.result?.token.toString()
+                    if(context.getSharedPreferences("config",Context.MODE_PRIVATE).getBoolean("token_refresh",true) && FirebaseAuth.getInstance().uid.isNullOrEmpty().not())
+                    {
+                        context.getSharedPreferences("config",Context.MODE_PRIVATE).edit().apply {
+                            mapFcmTokenOnServer()
+                            putBoolean("token_refresh",false)
+                        }.apply()
+
+                    }
+
                 }
 
             })
@@ -55,6 +70,13 @@ class MasterViewModel : ViewModel() {
                 context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    private fun mapFcmTokenOnServer()
+    {
+        Repository.addFcmToken(
+            AddFcmTokenModel(FirebaseAuth.getInstance().uid.toString())
+        )
     }
 
 }

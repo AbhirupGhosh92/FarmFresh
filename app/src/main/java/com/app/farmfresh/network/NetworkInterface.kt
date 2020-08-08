@@ -20,7 +20,6 @@ interface NetworkInterface {
     @POST("editArea/")
     fun editArea(@Body areaModel:AreaModel) : Flowable<ResponseModel?>?
 
-
     @POST("deleteArea/")
     fun deleteArea(@Body areaModel:AreaModel) : Flowable<ResponseModel?>?
 
@@ -29,7 +28,6 @@ interface NetworkInterface {
 
     @POST("editCoupon/")
     fun editCoupon(@Body couponModel: CouponModel) : Flowable<ResponseModel?>?
-
 
     @POST("deleteCoupon/")
     fun deleteCoupon(@Body couponModel: CouponModel) : Flowable<ResponseModel?>?
@@ -51,5 +49,8 @@ interface NetworkInterface {
 
     @POST("addUserDetails/")
     fun addUserDetails( @Body grantAccessModel: AddUserDetailsModel) : Flowable<ResponseModel?>?
+
+    @POST("addFcmToken/")
+    fun addFcmToken(@Body addFcmTokenModel: AddFcmTokenModel) : Flowable<ResponseModel?>?
 }
 

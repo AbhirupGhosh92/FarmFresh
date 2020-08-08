@@ -11,7 +11,9 @@ import androidx.core.app.NotificationBuilderWithBuilderAccessor
 import com.app.farmfresh.constants.ChannelID
 import com.app.farmfresh.constants.Constants
 import com.app.farmfresh.constants.NotificationConstants
+import com.app.farmfresh.models.AddFcmTokenModel
 import com.app.farmfresh.network.ApiModule
+import com.app.farmfresh.repo.Repository
 import com.google.android.gms.common.util.SharedPreferencesUtils
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
@@ -23,6 +25,16 @@ class CloudMessagingService : FirebaseMessagingService() {
     override fun onNewToken(p0: String?) {
         Log.d("FCM" , "Token:${p0}")
         ApiModule.fcmToken = p0.toString()
+        getSharedPreferences("config",Context.MODE_PRIVATE).edit().apply{
+            putBoolean("token_refresh",false)
+        }.apply()
+
+        if(FirebaseAuth.getInstance().uid.isNullOrEmpty().not())
+        {
+            Repository.addFcmToken(AddFcmTokenModel(
+                FirebaseAuth.getInstance().uid.toString()
+            ))
+        }
     }
 
 

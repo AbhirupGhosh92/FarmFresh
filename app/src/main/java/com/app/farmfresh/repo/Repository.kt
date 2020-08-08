@@ -198,7 +198,10 @@ object Repository  {
             defaultResponseModel)
     }
 
-
-
+    fun addFcmToken(addFcmTokenModel: AddFcmTokenModel) : Flowable<ResponseModel?>?
+    {
+        return networkClient.addFcmToken(addFcmTokenModel)?.defaultIfEmpty(
+            defaultResponseModel)
+    }
 
 }
