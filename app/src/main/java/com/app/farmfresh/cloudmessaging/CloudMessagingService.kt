@@ -19,21 +19,31 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class CloudMessagingService : FirebaseMessagingService() {
 
     override fun onNewToken(p0: String?) {
         Log.d("FCM" , "Token:${p0}")
         ApiModule.fcmToken = p0.toString()
-        getSharedPreferences("config",Context.MODE_PRIVATE).edit().apply{
-            putBoolean("token_refresh",false)
-        }.apply()
 
         if(FirebaseAuth.getInstance().uid.isNullOrEmpty().not())
         {
             Repository.addFcmToken(AddFcmTokenModel(
                 FirebaseAuth.getInstance().uid.toString()
-            ))
+            ))?.subscribeOn(Schedulers.io())
+                ?.observeOn(AndroidSchedulers.mainThread())
+                ?.subscribe ({
+                    if(it?.status == 200)
+                    {
+                        getSharedPreferences("config",Context.MODE_PRIVATE).edit().apply{
+                            putBoolean("token_refresh",false)
+                        }.apply()
+                    }
+                },{
+                    it.printStackTrace()
+                })
         }
     }
 

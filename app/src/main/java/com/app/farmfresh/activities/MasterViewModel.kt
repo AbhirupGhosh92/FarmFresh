@@ -17,6 +17,11 @@ import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MasterViewModel : ViewModel() {
 
@@ -44,11 +49,7 @@ class MasterViewModel : ViewModel() {
                     ApiModule.fcmToken = task.result?.token.toString()
                     if(context.getSharedPreferences("config",Context.MODE_PRIVATE).getBoolean("token_refresh",true) && FirebaseAuth.getInstance().uid.isNullOrEmpty().not())
                     {
-                        context.getSharedPreferences("config",Context.MODE_PRIVATE).edit().apply {
-                            mapFcmTokenOnServer()
-                            putBoolean("token_refresh",false)
-                        }.apply()
-
+                        mapFcmTokenOnServer()
                     }
 
                 }
@@ -76,7 +77,18 @@ class MasterViewModel : ViewModel() {
     {
         Repository.addFcmToken(
             AddFcmTokenModel(FirebaseAuth.getInstance().uid.toString())
-        )
+        )?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe ({
+                if(it?.status == 200)
+                {
+                    context.getSharedPreferences("config",Context.MODE_PRIVATE).edit().apply {
+                        putBoolean("token_refresh",false)
+                    }.apply()
+                }
+            },{
+                it.printStackTrace()
+            })
     }
 
 }

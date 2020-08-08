@@ -35,9 +35,6 @@ class MasterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        masterViewModel = ViewModelProvider(this)[MasterViewModel::class.java]
-        masterViewModel.init(this)
-
         setContentView(R.layout.activity_master)
 
         navController = findNavController(R.id.master_nav_host_fragment)
@@ -72,6 +69,9 @@ class MasterActivity : AppCompatActivity() {
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
         FirebaseApp.initializeApp(this)
+
+        masterViewModel = ViewModelProvider(this)[MasterViewModel::class.java]
+        masterViewModel.init(this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
