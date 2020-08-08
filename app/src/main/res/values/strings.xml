@@ -2,9 +2,12 @@
     <string name="logout_txt">Logout</string>
     <string name="notifications">Notifications</string>
     <string name="orders">Orders</string>
+    <string name="disputes">Disputes</string>
+    <string name="items">Items</string>
     <string name="enter_mobile_Number">Enter Mobile Number</string>
     <string name="next">Next</string>
     <string name="area_name">Area Name</string>
+    <string name="areas">Areas</string>
     <string name="area_id">Area ID</string>
     <string name="coupon_id">Coupon Id</string>
     <string name="coupon_value">Coupon Value</string>
@@ -24,6 +27,7 @@
     <string name="retry">Retry</string>
     <string name="add_mannager_email">Add Manager Email</string>
     <string name="add_delivery_boy_email">Add Delivery Boy Email</string>
+    <string name="delivery_boy">Delivery Boy</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="name">Name</string>

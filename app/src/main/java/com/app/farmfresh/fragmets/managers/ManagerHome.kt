@@ -25,12 +25,12 @@ import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-class ManagerHome : Fragment() {
+class ManagerHome : Fragment(),View.OnClickListener {
 
     private lateinit var viewModel: ManagerHomeViewModel
     private lateinit var dataBinding : ManagerHomeFragmentBinding
     private lateinit var navController: NavController
-    private val RC_SIGN_IN = 11
+
 
     private  var firebaseUser: FirebaseUser? = null
 
@@ -38,20 +38,10 @@ class ManagerHome : Fragment() {
 
         super.onCreate(savedInstanceState)
 
-        FirebaseApp.initializeApp(requireContext());
-
     }
 
     override fun onResume() {
         super.onResume()
-
-        if(FirebaseAuth.getInstance().currentUser == null)
-        {
-            startAuth()
-        }else
-        {
-            firebaseUser = FirebaseAuth.getInstance().currentUser
-        }
 
     }
 
@@ -69,47 +59,44 @@ class ManagerHome : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this)[ManagerHomeViewModel::class.java]
-
-
-    }
-
-    fun startAuth()
-    {
-        val providers = arrayListOf(
-            AuthUI.IdpConfig.EmailBuilder().setAllowNewAccounts(false)
-                .build())
-        startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setIsSmartLockEnabled(false)
-                .setAvailableProviders(providers)
-                .build(),
-            RC_SIGN_IN)
+        dataBinding.llDelivery.setOnClickListener(this)
+        dataBinding.llArea.setOnClickListener(this)
+        dataBinding.llItems.setOnClickListener(this)
+        dataBinding.llNotification.setOnClickListener(this)
+        dataBinding.llOrders.setOnClickListener(this)
+        dataBinding.llDisputes.setOnClickListener(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when(requestCode)
+    }
+
+    override fun onClick(p0: View?) {
+        when(p0?.id)
         {
-            RC_SIGN_IN -> {
-                val response = IdpResponse.fromResultIntent(data)
+            dataBinding.llDelivery.id -> {
+                findNavController().navigate(R.id.action_managerHome_to_manageDeliveryBoys)
+            }
 
-                if (resultCode == Activity.RESULT_OK) {
-                    // Successfully signed in
-                    firebaseUser = FirebaseAuth.getInstance().currentUser
-                    // ...
-                } else {
-                    // Sign in failed. If response is null the user canceled the
-                    // sign-in flow using the back button. Otherwise check
-                    // response.getError().getErrorCode() and handle the error.
-                    // ...
+            dataBinding.llArea.id -> {
+                findNavController().navigate(R.id.action_managerHome_to_manageAreas)
+            }
 
+            dataBinding.llItems.id -> {
+                findNavController().navigate(R.id.action_managerHome_to_manageItems)
+            }
 
+            dataBinding.llNotification.id -> {
+                findNavController().navigate(R.id.action_managerHome_to_manageNotifications)
+            }
 
-                    if(response?.error!=null)
-                        Toast.makeText(requireContext(),response?.error.toString(), Toast.LENGTH_SHORT).show()
-                }
+            dataBinding.llOrders.id -> {
+                findNavController().navigate(R.id.action_managerHome_to_manageOrders)
+            }
+
+            dataBinding.llDisputes.id -> {
+                findNavController().navigate(R.id.action_managerHome_to_manageDisputes)
             }
         }
     }

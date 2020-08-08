@@ -9,5 +9,54 @@
         android:id="@+id/managerHome"
         android:name="com.app.farmfresh.fragmets.managers.ManagerHome"
         android:label="Manager Home"
-        tools:layout="@layout/manager_home_fragment" />
+        tools:layout="@layout/manager_home_fragment" >
+        <action
+            android:id="@+id/action_managerHome_to_manageDeliveryBoys"
+            app:destination="@id/manageDeliveryBoys" />
+        <action
+            android:id="@+id/action_managerHome_to_manageOrders"
+            app:destination="@id/manageOrders" />
+        <action
+            android:id="@+id/action_managerHome_to_manageAreas"
+            app:destination="@id/manageAreas" />
+        <action
+            android:id="@+id/action_managerHome_to_manageItems"
+            app:destination="@id/manageItems" />
+        <action
+            android:id="@+id/action_managerHome_to_manageNotifications"
+            app:destination="@id/manageNotifications" />
+        <action
+            android:id="@+id/action_managerHome_to_manageDisputes"
+            app:destination="@id/manageDisputes" />
+    </fragment>
+    <fragment
+        android:id="@+id/manageDeliveryBoys"
+        android:name="com.app.farmfresh.fragmets.managers.ManageDeliveryBoys"
+        android:label="Delivery Boys"
+        tools:layout="@layout/fragment_manage_delivery_boys" />
+    <fragment
+        android:id="@+id/manageOrders"
+        android:name="com.app.farmfresh.fragmets.managers.ManageOrders"
+        android:label="Orders"
+        tools:layout="@layout/fragment_manage_orders" />
+    <fragment
+        android:id="@+id/manageAreas"
+        android:name="com.app.farmfresh.fragmets.managers.ManageAreas"
+        android:label="Areas"
+        tools:layout="@layout/fragment_manage_areas" />
+    <fragment
+        android:id="@+id/manageItems"
+        android:name="com.app.farmfresh.fragmets.managers.ManageItems"
+        android:label="Items"
+        tools:layout="@layout/fragment_manage_items" />
+    <fragment
+        android:id="@+id/manageNotifications"
+        android:name="com.app.farmfresh.fragmets.managers.ManageNotifications"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_manage_notifications" />
+    <fragment
+        android:id="@+id/manageDisputes"
+        android:name="com.app.farmfresh.fragmets.managers.ManageDisputes"
+        android:label="Disputes"
+        tools:layout="@layout/fragment_manage_disputes" />
 </navigation>

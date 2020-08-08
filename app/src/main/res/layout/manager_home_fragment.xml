@@ -9,69 +9,218 @@
         tools:context=".fragmets.deliveryboys.DeliveyBoysHome">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/ll_notification"
-            android:orientation="vertical"
+            android:id="@+id/ll_delivery"
+            android:layout_width="@dimen/selector_width_height_large"
+            android:layout_height="@dimen/selector_width_height_large"
+            android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
+            android:orientation="vertical"
             app:cardBackgroundColor="@color/colorAccent"
             app:cardCornerRadius="@dimen/card_corner_radius"
-            android:layout_width="@dimen/selector_width_height_large"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_height="@dimen/selector_width_height_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13">
+
             <LinearLayout
-                android:orientation="vertical"
-                android:gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
                 <ImageView
-                    android:src="@drawable/ic_notifications_active"
-                    android:layout_gravity="center"
                     android:layout_width="@dimen/image_dimen_card"
-                    android:layout_height="@dimen/image_dimen_card"/>
+                    android:layout_height="@dimen/image_dimen_card"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_motorcycle_black" />
 
                 <TextView
-                    android:text="@string/notifications"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="@string/delivery_boy"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ll_items"
+            android:layout_width="@dimen/selector_width_height_large"
+            android:layout_height="@dimen/selector_width_height_large"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.39">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/image_dimen_card"
+                    android:layout_height="@dimen/image_dimen_card"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_add_shopping_cart"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/items"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ll_area"
+            android:layout_width="@dimen/selector_width_height_large"
+            android:layout_height="@dimen/selector_width_height_large"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.39">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/image_dimen_card"
+                    android:layout_height="@dimen/image_dimen_card"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_add_location" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/areas"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ll_disputes"
+            android:layout_width="@dimen/selector_width_height_large"
+            android:layout_height="@dimen/selector_width_height_large"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.65">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/image_dimen_card"
+                    android:layout_height="@dimen/image_dimen_card"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_baseline_sentiment_dissatisfied" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/disputes"
+                    android:textColor="@color/colorWhite" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/ll_notification"
+            android:layout_width="@dimen/selector_width_height_large"
+            android:layout_height="@dimen/selector_width_height_large"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="@dimen/card_corner_radius"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.64">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/image_dimen_card"
+                    android:layout_height="@dimen/image_dimen_card"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_notifications_active" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/notifications"
+                    android:textColor="@color/colorWhite" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/ll_orders"
+            android:layout_width="@dimen/selector_width_height_large"
+            android:layout_height="@dimen/selector_width_height_large"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:gravity="center"
             android:orientation="vertical"
             app:cardBackgroundColor="@color/colorAccent"
             app:cardCornerRadius="@dimen/card_corner_radius"
-            android:gravity="center"
-            android:layout_width="@dimen/selector_width_height_large"
-            android:foreground="?android:attr/selectableItemBackground"
-            android:layout_height="@dimen/selector_width_height_large"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.85"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.13">
+
             <LinearLayout
-                android:gravity="center"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <ImageView
-                    android:src="@drawable/ic_shopping_basket"
-                    android:layout_gravity="center"
                     android:layout_width="@dimen/image_dimen_card"
-                    android:layout_height="@dimen/image_dimen_card"/>
+                    android:layout_height="@dimen/image_dimen_card"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_shopping_basket" />
 
                 <TextView
-                    android:text="@string/orders"
                     android:layout_width="wrap_content"
-                    android:textColor="@color/colorWhite"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:text="@string/orders"
+                    android:textColor="@color/colorWhite" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
