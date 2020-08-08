@@ -10,6 +10,7 @@ import retrofit2.http.*
 
 interface NetworkInterface {
 
+
     @GET("heartbeat/")
     fun heartBeat() : Flowable<ResponseModel?>?
 

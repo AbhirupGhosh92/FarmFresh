@@ -14,6 +14,8 @@ class ApiModule {
 
     companion object{
 
+        var fcmToken = ""
+
         private var interceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }

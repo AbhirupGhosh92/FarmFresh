@@ -15,7 +15,6 @@ object Repository  {
     private var db : FirebaseDatabase = FirebaseDatabase.getInstance().apply {
         setLogLevel(Logger.Level.DEBUG)
         setPersistenceEnabled(true)
-
     }
 
     private fun FirebaseDatabase.getReferenceSync(path : String) : DatabaseReference
@@ -198,6 +197,7 @@ object Repository  {
         return networkClient.addUserDetails(grantAccessModel)?.defaultIfEmpty(
             defaultResponseModel)
     }
+
 
 
 
