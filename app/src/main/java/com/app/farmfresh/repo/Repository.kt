@@ -1,10 +1,12 @@
 package com.app.farmfresh.repo
 
+import com.app.farmfresh.BuildConfig
 import com.app.farmfresh.models.*
 import com.app.farmfresh.network.ApiModule
 import com.app.farmfresh.network.NetworkInterface
 import com.app.farmfresh.repo.models.*
 import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.core.DatabaseConfig
 import com.google.firebase.database.core.RepoInfo
@@ -202,6 +204,28 @@ object Repository  {
     {
         return networkClient.addFcmToken(addFcmTokenModel)?.defaultIfEmpty(
             defaultResponseModel)
+    }
+
+    fun getCurrentUserDetails() : Flowable<DataSnapshot>
+    {
+
+        return Flowable.create({
+
+            db.getReferenceSync("userDetails/${BuildConfig.FLAVOR}/${FirebaseAuth.getInstance().currentUser?.uid}")
+                .addValueEventListener(object : ValueEventListener{
+                    override fun onCancelled(p0: DatabaseError) {
+
+                    }
+
+                    override fun onDataChange(p0: DataSnapshot) {
+                        if(p0.value!=null) {
+                            it.onNext(p0)
+                        }
+                    }
+
+                })
+
+        },BackpressureStrategy.BUFFER)
     }
 
 }

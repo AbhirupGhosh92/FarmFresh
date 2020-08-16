@@ -88,7 +88,7 @@ class ManagerHome : Fragment(),View.OnClickListener {
             }
 
             dataBinding.llNotification.id -> {
-                findNavController().navigate(R.id.action_managerHome_to_manageNotifications)
+                findNavController().navigate(R.id.action_managerHome_to_profileFragment)
             }
 
             dataBinding.llOrders.id -> {

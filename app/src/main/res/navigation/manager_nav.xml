@@ -23,11 +23,11 @@
             android:id="@+id/action_managerHome_to_manageItems"
             app:destination="@id/manageItems" />
         <action
-            android:id="@+id/action_managerHome_to_manageNotifications"
-            app:destination="@id/manageNotifications" />
-        <action
             android:id="@+id/action_managerHome_to_manageDisputes"
             app:destination="@id/manageDisputes" />
+        <action
+            android:id="@+id/action_managerHome_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/manageDeliveryBoys"
@@ -50,13 +50,12 @@
         android:label="Items"
         tools:layout="@layout/fragment_manage_items" />
     <fragment
-        android:id="@+id/manageNotifications"
-        android:name="com.app.farmfresh.fragmets.managers.ManageNotifications"
-        android:label="Notifications"
-        tools:layout="@layout/fragment_manage_notifications" />
-    <fragment
         android:id="@+id/manageDisputes"
         android:name="com.app.farmfresh.fragmets.managers.ManageDisputes"
         android:label="Disputes"
         tools:layout="@layout/fragment_manage_disputes" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.app.farmfresh.fragmets.generic.ProfileFragment"
+        android:label="Profile" />
 </navigation>
