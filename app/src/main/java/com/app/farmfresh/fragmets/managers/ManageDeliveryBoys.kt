@@ -26,16 +26,16 @@ class ManageDeliveryBoys : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         dataBinding = DataBindingUtil.inflate(layoutInflater,R.layout.fragment_manage_delivery_boys,container,false)
+        dataBinding.orderViewPager.adapter = GenericPagerAdapter(this, listOf(ManagerAddDeliveryBoys(),AssignOrders()))
+
+        TabLayoutMediator(dataBinding.tabLayoutDeliveryOrder,dataBinding.orderViewPager){tab, position ->
+            tab.text = titleList[position]
+        }.attach()
         return dataBinding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        dataBinding.orderViewPager.adapter = GenericPagerAdapter(this, listOf(ManagerAddDeliveryBoys(),AssignOrders()))
-
-        TabLayoutMediator(dataBinding.tabLayoutDeliveryOrder,dataBinding.orderViewPager){tab, position ->
-            tab.text = titleList[position]
-        }.attach()
     }
 }

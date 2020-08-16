@@ -45,9 +45,6 @@ class EditManagerViewModel : ViewModel() {
                 temp.clear()
                 it.forEach {
 
-
-
-
                     var tempObj = it.value as HashMap<*, *>
                     var address = tempObj["address"] as HashMap<*,*>
                     tempAddressList.clear()
@@ -73,4 +70,50 @@ class EditManagerViewModel : ViewModel() {
         return liveData
     }
 
+    fun getDeliveryBoyList() : LiveData<List<GetUserDetailModel>>{
+
+        var temp = mutableListOf<GetUserDetailModel>()
+        var tempAddressList = hashMapOf<String, AddressModel>()
+        var liveData = MutableLiveData<List<GetUserDetailModel>>()
+
+        Repository.getDeliveryBoyList()
+            ?.subscribeOn(Schedulers.io())
+            ?.observeOn(AndroidSchedulers.mainThread())
+            ?.subscribe({
+
+                temp.clear()
+                it.forEach {
+
+                    var tempObj = it.value as HashMap<*, *>
+                    var address = tempObj["address"] as HashMap<*, *>
+                    tempAddressList.clear()
+
+                    for (key in address.keys) {
+                        tempAddressList[key.toString()] = Gson().fromJson(
+                            Gson().toJsonTree(address[key]),
+                            AddressModel::class.java
+                        )
+                    }
+
+                    var userDetailsModel = GetUserDetailModel(
+                        it.key.toString(),
+                        tempObj["email"].toString(),
+                        tempObj["mobile"].toString(),
+                        tempObj["name"].toString(),
+                        tempAddressList,
+                        Constants.manager
+                    )
+
+                    temp.add(userDetailsModel)
+                }
+
+                liveData.value = temp
+
+            }
+                , {
+                    it.printStackTrace()
+                })
+
+        return liveData
+    }
 }

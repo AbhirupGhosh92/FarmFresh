@@ -73,18 +73,10 @@ class AddDeliveryFragment : Fragment() {
         dataBindinng.rvDeliveryList.itemAnimator = DefaultItemAnimator()
         dataBindinng.rvDeliveryList.adapter?.notifyDataSetChanged()
 
-
-        FirebaseDatabase.getInstance().getReference("/delivery").addValueEventListener(object :
-            ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onDataChange(p0: DataSnapshot) {
-                var item =  p0
-            }
-
+        viewModel.getDeliveryBoyList().observe(viewLifecycleOwner, Observer {
+            managerList.clear()
+            managerList.addAll(it)
+            dataBindinng.rvDeliveryList.adapter?.notifyDataSetChanged()
         })
-
     }
 }
